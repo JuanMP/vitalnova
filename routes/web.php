@@ -16,6 +16,14 @@ Route::get('/terms/conditions', function (){
     return view('legal.terms.conditions');
 })->name('legal.terms.conditions');
 
+Route::get('/cookies/policy', function () {
+    return view('legal.cookies.policy');
+})->name('legal.cookies.policy');
+
+Route::get('/cookies/settings', function () {
+    return view('legal.cookies.settings');
+})->name('legal.cookies.settings');
+
 
 //Rutas para el navbar
 Route::view('/', 'index')->name('index');

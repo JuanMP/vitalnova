@@ -8,8 +8,8 @@
           <p>
             <a href="{{ route('legal.privacy.policy') }}">Política de Privacidad</a><br>
             <a href="{{ route('legal.terms.conditions') }}">Términos y Condiciones de Uso</a><br>
-            <a href="#">Polítia de Cookies</a><br>
-            <a href="#">Configuración de Cookies</a>
+            <a href="{{ route('legal.cookies.policy') }}">Política de Cookies</a><br>
+            <a href="{{ route('legal.cookies.settings')}}">Configuración de Cookies</a>
           </p>
         </div>
         <div class="col l4 offset-l2 s12">
