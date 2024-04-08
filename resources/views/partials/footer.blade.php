@@ -5,6 +5,12 @@
         <div class="col l6 s12">
           <h5 class="white-text">Footer Content</h5>
           <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+          <p>
+            <a href="{{ route('legal.privacy.policy') }}">Política de Privacidad</a><br>
+            <a href="{{ route('legal.terms.conditions') }}">Términos y Condiciones de Uso</a><br>
+            <a href="#">Polítia de Cookies</a><br>
+            <a href="#">Configuración de Cookies</a>
+          </p>
         </div>
         <div class="col l4 offset-l2 s12">
           <h5 class="white-text">Links</h5>
@@ -19,8 +25,9 @@
     </div>
     <div class="footer-copyright">
       <div class="container">
-      © 2014 Copyright Text
+      VitalNova &#x00A9 Todos los derechos reservados 2024
       <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
       </div>
     </div>
   </footer>
+
