@@ -27,3 +27,5 @@ Route::get('/cookies/settings', function () {
 
 //Rutas para el navbar
 Route::view('/', 'index')->name('index');
+Route::view('/treatments', 'treatments.index')->name('treatments');
+Route::view('/teams', 'teams.index')->name('teams');
