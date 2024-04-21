@@ -4,40 +4,7 @@
 
 @section('content')
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Equipo - Clínica Dental</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-</head>
-<body>
-    <header>
-        <nav class="blue darken-4">
-            <div class="container">
-                <div class="nav-wrapper">
-                    <a href="#" class="brand-logo">Clínica Dental</a>
-                    <a href="#" data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-                    <ul class="right hide-on-med-and-down">
-                        <li><a href="index.html">Inicio</a></li>
-                        <li><a href="tratamientos.html">Tratamientos</a></li>
-                        <li><a href="equipo.html">Equipo</a></li>
-                        <li><a href="contacto.html">Contacto</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
 
-        <ul class="sidenav" id="mobile-nav">
-            <li><a href="index.html">Inicio</a></li>
-            <li><a href="tratamientos.html">Tratamientos</a></li>
-            <li><a href="equipo.html">Equipo</a></li>
-            <li><a href="contacto.html">Contacto</a></li>
-        </ul>
-    </header>
-
-    <main>
         <section class="section">
             <div class="container">
                 <h2 class="center-align">Nuestro Equipo</h2>
@@ -93,41 +60,6 @@
             </div>
         </section>
     </main>
-
-    <footer class="page-footer blue darken-4">
-        <div class="container">
-            <div class="row">
-                <div class="col s12 m6">
-                    <h5 class="white-text">Contáctanos</h5>
-                    <p class="grey-text text-lighten-4">Estamos aquí para ayudarte. Si tienes alguna pregunta o necesitas más información, no dudes en contactarnos.</p>
-                </div>
-                <div class="col s12 m6">
-                    <h5 class="white-text">Síguenos</h5>
-                    <ul>
-                        <li><a class="grey-text text-lighten-3" href="#!">Facebook</a></li>
-                        <li><a class="grey-text text-lighten-3" href="#!">Twitter</a></li>
-                        <li><a class="grey-text text-lighten-3" href="#!">Instagram</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="footer-copyright">
-            <div class="container">
-                © 2024 Clínica Dental
-                <a class="grey-text text-lighten-4 right" href="#!">Política de Privacidad</a>
-            </div>
-        </div>
-    </footer>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var elems = document.querySelectorAll('.sidenav');
-            var instances = M.Sidenav.init(elems);
-        });
-    </script>
-</body>
-</html>
 
 
 @endsection
