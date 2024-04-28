@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\UserController;
+
 
 
 Route::get('/', function () {
@@ -41,3 +43,5 @@ Route::post('signup', [LoginController::class, 'signup'])->name('signup');
 Route::get('login', [LoginController::class, 'loginForm'])->name('loginForm');
 Route::post('login', [LoginController::class, 'login'])->name('login');
 Route::get('logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::get('/users/profile', [UserController::class, 'show'])->name('users.profile')->middleware('auth');

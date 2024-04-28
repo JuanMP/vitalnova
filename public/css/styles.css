@@ -9,3 +9,19 @@
 .page-footer{
     background-color: #48CAE4;
 }
+
+.ir-arriba {
+	display: none;
+	padding: 1px;
+	background: #72efdc02;
+	font-size: 20px;
+	cursor: pointer;
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+}
+
+.ir-arriba-icono {
+    width: 50px;
+    right: 50px;
+}

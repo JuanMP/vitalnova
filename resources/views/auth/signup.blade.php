@@ -1,81 +1,54 @@
 @extends('layout')
 
-@section('title', 'Registro')
+@section('title', 'Página de Registro')
 
 @section('content')
 
-
-@extends('layout')
-
-@section('title', 'Registro')
-
-@section('content')
-
-<style>
-    body {
-      background-color: #f2f7ff; /* Color de fondo */
-    }
-    #register-container {
-      max-width: 600px;
-      margin: 50px auto; /* Ajusta la margen superior e inferior */
-    }
-    #register-container img {
-      max-width: 100%;
-      height: auto;
-    }
-    #register-title {
-      font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 20px;
-    }
-  </style>
-
-  <div id="register-container" class="row">
-    <div class="col s12 m6">
-      <img src="/img/others/login2.jpg" alt="Registro Clínica Dental">
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+                <h2 class="card-header">Registro</h2>
+                <div class="card-body">
+                    <form action="{{ route('signup') }}" method="post">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Nombre de usuario</label>
+                            <input type="text" class="form-control" name="username" id="username" value="{{ old('username') }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nombre completo</label>
+                            <input type="text" class="form-control" name="name" id="name" value="{{ old('name') }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" name="email" id="email" value="{{ old('email') }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="birthday" class="form-label">Fecha de nacimiento</label>
+                            <input type="date" class="form-control" name="birthday" id="birthday" value="{{ old('birthday') }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" name="password" id="password">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password_confirmation" class="form-label">Confirmar Contraseña</label>
+                            <input type="password" class="form-control" name="password_confirmation" id="password_confirmation">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Registrarse</button>
+                    </form>
+                    @if($errors->any())
+                        <div class="mt-3">
+                            <ul class="list-unstyled">
+                                @foreach($errors->all() as $error)
+                                    <li class="text-danger">{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                </div>
+        </div>
     </div>
-    <div class="col s12 m6">
-      <h3 id="register-title">Registro</h3>
-      <form action="{{ route('signup') }}" method="post">
-        <div class="row">
-          <div class="input-field col s12">
-            <input id="nombre" type="text" class="validate">
-            <label for="nombre">Nombre</label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <input id="email" type="email" class="validate">
-            <label for="email">Correo electrónico</label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <input id="contrasena" type="password" class="validate">
-            <label for="contrasena">Contraseña</label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <input id="confirmar_contrasena" type="password" class="validate">
-            <label for="confirmar_contrasena">Confirmar contraseña</label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <button class="btn waves-effect waves-light" type="submit" name="action">Registrarse
-              <i class="material-icons right">send</i>
-            </button>
-          </div>
-          <div class="col s12">
-            <p class="center-align">¿Ya tienes una cuenta? <a href="#">Iniciar sesión</a></p>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
-
-@endsection
-
+</div>
 
 @endsection
