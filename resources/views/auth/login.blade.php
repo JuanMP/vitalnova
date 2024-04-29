@@ -1,63 +1,51 @@
 @extends('layout')
 
-@section('title', 'Login')
+@section('title', 'Página de Login')
 
 @section('content')
-
-<style>
-    body {
-      background-color: #f2f7ff; /* Color de fondo */
-    }
-    #login-container {
-      max-width: 600px;
-      margin: 50px auto; /* Ajusta la margen superior e inferior */
-    }
-    #login-container img {
-      max-width: 100%;
-      height: auto;
-    }
-  </style>
-
-  <div id="login-container" class="row">
-    <div class="col s12 m6">
-      <img src="/img/others/login2.jpg" alt="Logo Clínica Dental">
-    </div>
-    <div class="col s12 m6">
-        <h4 id="login-title">Iniciar Sesión</h4>
-      <form action="{{ route('login') }}" method="post">
-        <div class="row">
-          <div class="input-field col s12">
-            <input id="usuario" type="text" class="validate">
-            <label for="usuario">Usuario</label>
-          </div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col s12">
+      <div class="row no-margin">
+        <div class="col m6 s12" style="height: 500px; padding: 20px;">
+          <img src="img/others/login.png" alt="Logo" class="responsive-img" style="max-height: 100%;">
         </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <input id="contrasena" type="password" class="validate">
-            <label for="contrasena">Contraseña</label>
-          </div>
+        <div class="col m6 s12" style="height: 500px; padding: 20px;">
+          <h2 class="card-title center-align">Iniciar Sesión</h2>
+          <form action="{{ route('login') }}" method="post" class="validate">
+            @csrf
+            <div class="row">
+              <div class="input-field col s12">
+                <i class="material-icons prefix">account_circle</i>
+                <input type="text" id="username" name="username" class="validate" value="{{ old('username') }}" required>
+                <label for="username">Nombre de usuario</label>
+                <span class="helper-text" data-error="Campo obligatorio"></span>
+              </div>
+              <div class="input-field col s12">
+                <i class="material-icons prefix">lock</i>
+                <input type="password" id="password" name="password" class="validate" required>
+                <label for="password">Contraseña</label>
+                <span class="helper-text" data-error="Campo obligatorio"></span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col s6">
+                <p>
+                  <label>
+                    <input type="checkbox" id="remember" name="remember">
+                    <span>Recordar contraseña</span>
+                  </label>
+                </p>
+              </div>
+              <div class="col s6 right-align">
+                <button type="submit" class="btn waves-effect waves-light light-blue darken-2">Enviar</button>
+              </div>
+            </div>
+          </form>
         </div>
-        <div class="row">
-          <div class="col s12">
-            <label>
-              <input type="checkbox" class="filled-in" />
-              <span>Recordar usuario</span>
-            </label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <button class="btn waves-effect waves-light" type="submit" name="action">Iniciar sesión
-              <i class="material-icons right">send</i>
-            </button>
-          </div>
-          <div class="col s12">
-            <p class="center-align">¿No tienes una cuenta? <a href="#">Registrarse</a></p>
-          </div>
-        </div>
-      </form>
+      </div>
     </div>
   </div>
+</div>
 
 @endsection
-

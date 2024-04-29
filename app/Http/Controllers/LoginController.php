@@ -62,9 +62,12 @@ class LoginController extends Controller
     }
 
     //Logout para cerrar sesión
-    public function logout()
+    public function logout(Request $request)
     {
-
+        Auth::guard('web')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('index');
     }
 
 }
