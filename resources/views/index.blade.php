@@ -11,7 +11,29 @@
     </div>
 </section>
 
+<section class="section">
+<div class="carousel">
+    <a class="carousel-item" href="#one!"><img src="img\demo\f1.jpg"></a>
+    <a class="carousel-item" href="#two!"><img src="img\demo\f2.jpg"></a>
+    <a class="carousel-item" href="#three!"><img src="img\demo\f3.jpg"></a>
+    <a class="carousel-item" href="#four!"><img src="img\demo\f4.jpg"></a>
+    <a class="carousel-item" href="#five!"><img src="img\demo\f5.jpg"></a>
+  </div>
+</section>
 
+<script>
+      document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.carousel');
+    var instances = M.Carousel.init(elems, options);
+  });
+
+  // Or with jQuery
+
+  $(document).ready(function(){
+    $('.carousel').carousel();
+  });
+
+  </script>
 <section class="section grey lighten-4">
     <div class="container">
         <h2 class="center-align">Nuestros Servicios</h2>
