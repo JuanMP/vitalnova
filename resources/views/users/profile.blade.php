@@ -50,7 +50,7 @@
           </div>
         </div>
         <div class="profile-action center-align">
-          <a href="{{ route('users.update', $user->id) }}" class="waves-effect waves-light btn-large">Editar perfil</a>
+          <a href="{{ route('users.edit', $user) }}" class="waves-effect waves-light btn-large">Editar perfil</a>
         </div>
       </div>
     </div>

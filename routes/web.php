@@ -44,7 +44,5 @@ Route::get('login', [LoginController::class, 'loginForm'])->name('loginForm');
 Route::post('login', [LoginController::class, 'login'])->name('login');
 Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 
-//Ruta para acceder al usuario, si no se redirige a Inicio
 Route::get('/users/profile', [UserController::class, 'show'])->name('users.profile')->middleware('auth');
-
-Route::get('/users/{id}/update', [UserController::class, 'update'])->name('users.update');
+Route::resource('users', UserController::class);
