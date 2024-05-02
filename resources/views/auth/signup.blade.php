@@ -20,6 +20,10 @@
                             <input type="email" class="form-control" name="email" id="email" value="{{ old('email') }}">
                         </div>
                         <div class="mb-3">
+                            <label for="dni" class="form-label">DNI</label>
+                            <input type="text" class="form-control" name="dni" id="dni" value="{{ old('dni') }}">
+                        </div>
+                        <div class="mb-3">
                             <label for="telephone" class="form-label">Teléfono</label>
                             <input type="text" class="form-control" name="telephone" id="telephone" value="{{ old('telephone') }}">
                         </div>

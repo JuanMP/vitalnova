@@ -28,6 +28,8 @@ class SignupRequest extends FormRequest
                 'email' => 'required|email|regex:/^.+@.+\..+$/|unique:users',
                 'birthday' => 'required|date|before_or_equal:today|after: -100 years|before: -14 years',
                 'password' => ['required', 'confirmed', Rules\Password::defaults()],
+                'dni' => 'required|string|min:9|max:9|unique:users,dni',
+                'telephone' => 'required|string|max:15',
         ];
     }
 
@@ -49,6 +51,14 @@ class SignupRequest extends FormRequest
             'birthday.before' => 'Debes tener al menos 14 años para poder registrarte',
             'password.required' => 'La contraseña es obligatoria',
             'password.confirmed' => 'No coincide la contraseña',
+            'dni.required' => 'El DNI es obligatorio',
+            'dni.string' => 'El DNI debe ser una cadena de caracteres',
+            'dni.min' => 'El DNI debe tener 9 caracteres',
+            'dni.max' => 'El DNI debe tener 9 caracteres',
+            'dni.unique' => 'Este DNI ya está registrado',
+            'telephone.required' => 'El teléfono es obligatorio',
+            'telephone.string' => 'El teléfono debe ser una cadena de caracteres',
+            'telephone.max' => 'El teléfono no puede tener más de 15 caracteres',
         ];
     }
 }

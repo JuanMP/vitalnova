@@ -25,6 +25,8 @@ class UserController extends Controller
     {
         $user->name = $request->input('name');
         $user->birthday = $request->input('birthday');
+        $user->telephone = $request->input('telephone');
+        $user->dni = $request->dni('dni');
         $user->save();
 
         return redirect()->route('users.profile');

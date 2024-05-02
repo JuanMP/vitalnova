@@ -24,6 +24,11 @@
                   <p>{{ $user->email }}</p>
                 </div>
               </div>
+              <div class="col s6">
+                <i class="material-icons prefix">assignment_ind</i>
+                <span>DNI:</span>
+                <p>{{ $user->dni }}</p>
+              </div>
               <div class="row">
                 <div class="col s6">
                   <i class="material-icons prefix">cake</i>
