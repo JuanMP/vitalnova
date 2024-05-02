@@ -24,7 +24,6 @@ class SignupRequest extends FormRequest
     {
         return [
             //
-            'username' => 'required|string|min:4|max:18|unique:users',
                 'name' => 'required|string|min:2|max:24',
                 'email' => 'required|email|regex:/^.+@.+\..+$/|unique:users',
                 'birthday' => 'required|date|before_or_equal:today|after: -100 years|before: -14 years',
@@ -37,10 +36,6 @@ class SignupRequest extends FormRequest
     public function messages()
     {
         return [
-            'username.required' => 'El nombre de usuario es obligatorio',
-            'username.min' => 'El nombre de usuario debe tener como mínimo 4 carácteres',
-            'username.max' => 'El nombre de usuario debe tener como máximo 18 carácteres',
-            'username.unique' => 'El nombre de usuario ya existe',
             'name.required' => 'El nombre completo es obligatorio',
             'name.min' => 'El nombre completo debe tener como mínimo 2 caracteres',
             'name.max' => 'El nombre completo debe tener como máximo 18 caracteres',

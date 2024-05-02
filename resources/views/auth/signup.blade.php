@@ -12,16 +12,16 @@
                     <form action="{{ route('signup') }}" method="post">
                         @csrf
                         <div class="mb-3">
-                            <label for="username" class="form-label">Nombre de usuario</label>
-                            <input type="text" class="form-control" name="username" id="username" value="{{ old('username') }}">
-                        </div>
-                        <div class="mb-3">
                             <label for="name" class="form-label">Nombre completo</label>
                             <input type="text" class="form-control" name="name" id="name" value="{{ old('name') }}">
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control" name="email" id="email" value="{{ old('email') }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="telephone" class="form-label">Teléfono</label>
+                            <input type="text" class="form-control" name="telephone" id="telephone" value="{{ old('telephone') }}">
                         </div>
                         <div class="mb-3">
                             <label for="birthday" class="form-label">Fecha de nacimiento</label>

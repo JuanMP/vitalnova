@@ -18,12 +18,6 @@
           <div class="divider"></div>
           <div class="row">
             <div class="col s12 m6">
-              <div class="row">
-                <div class="col s6">
-                  <i class="material-icons prefix">account_box</i>
-                  <span>Nombre de usuario:</span>
-                  <p>{{ $user->username }}</p>
-                </div>
                 <div class="col s6">
                   <i class="material-icons prefix">email</i>
                   <span>Correo electrónico:</span>
@@ -43,7 +37,7 @@
                 <div class="col s6">
                   <i class="material-icons prefix">phone</i>
                   <span>Teléfono:</span>
-                  <p>{{ $user->phone }}</p>
+                  <p>{{ $user->telephone }}</p>
                 </div>
               </div>
             </div>

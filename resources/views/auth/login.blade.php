@@ -17,8 +17,8 @@
             <div class="row">
               <div class="input-field col s12">
                 <i class="material-icons prefix">account_circle</i>
-                <input type="text" id="username" name="username" class="validate" value="{{ old('username') }}" required>
-                <label for="username">Nombre de usuario</label>
+                <input type="text" id="username" name="email" class="validate" value="{{ old('email') }}" required>
+                <label for="email">Correo Electrónico</label>
                 <span class="helper-text" data-error="Campo obligatorio"></span>
               </div>
               <div class="input-field col s12">
