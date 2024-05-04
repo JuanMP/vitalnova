@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AppointmentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserController;
@@ -49,3 +50,7 @@ Route::resource('users', UserController::class);
 
 
 //Roles Admin y Médico
+
+
+//Página de Citas
+Route::resource('appointments', AppointmentController::class);

@@ -18,8 +18,9 @@
         </ul>
         @else
         <ul class="right hide-on-med-and-down">
-            <li><a href="{{ route('logout') }}">Cerrar Sesión</a></li>
+            <li><a href="{{ route('appointments.index') }}">Citas</a></li>
             <li><a href="{{ route('users.profile') }}">Perfil</a></li>
+            <li><a href="{{ route('logout') }}">Cerrar Sesión</a></li>
         </ul>
     @endif
     </div>
