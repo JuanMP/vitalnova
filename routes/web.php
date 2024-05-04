@@ -46,3 +46,6 @@ Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/users/profile', [UserController::class, 'show'])->name('users.profile')->middleware('auth');
 Route::resource('users', UserController::class);
+
+
+//Roles Admin y Médico
