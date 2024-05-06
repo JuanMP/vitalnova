@@ -54,3 +54,11 @@ Route::resource('users', UserController::class);
 
 //Página de Citas
 Route::resource('appointments', AppointmentController::class);
+
+
+
+//Middleware Admin
+Route::middleware('IsAdmin')->group(function () {
+    Route::resource('appoinments', AppointmentController::class);
+});
+
