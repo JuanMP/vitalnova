@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Middleware\IsAdmin;
+
 
 
 Route::get('/', function () {
@@ -57,13 +59,13 @@ Route::resource('users', UserController::class);
 
 
 
-//Middleware Admin                                                   
+//Middleware Admin
 Route::middleware('admin')->get('/admin', function () {
     return view('index');
 });
-                                                            
-                                                        
-Route::middleware('admin')->group(function () {
+
+
+Route::middleware([IsAdmin::class])->group(function () {
     Route::resource('appointments', AppointmentController::class);
 });
 
