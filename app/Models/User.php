@@ -33,17 +33,23 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+    
 
     /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
      */
-    protected function casts(): array
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
+
+    //devolvemos admin si es
+    public function isAdmin()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->rol === 'admin';
     }
+
+    
 }

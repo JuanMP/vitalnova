@@ -15,10 +15,10 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->check()) {
+        if (auth()->guard('admin')->check()) {
             return $next($request);
         }
-
-        abort(403, 'No tienes permiso para acceder a esta página');
+        return redirect()->back();
+        //abort(403, 'Hola, no tienes permiso para acceder');
     }
 }

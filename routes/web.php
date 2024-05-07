@@ -1,10 +1,10 @@
 <?php
 
-use App\Http\Controllers\AppointmentController;
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserController;
-
+use App\Http\Controllers\AppointmentController;
 
 
 Route::get('/', function () {
@@ -53,12 +53,17 @@ Route::resource('users', UserController::class);
 
 
 //Página de Citas
-Route::resource('appointments', AppointmentController::class);
+//Route::resource('appointments', AppointmentController::class);
 
 
 
-//Middleware Admin
-Route::middleware('IsAdmin')->group(function () {
-    Route::resource('appoinments', AppointmentController::class);
+//Middleware Admin                                                   
+Route::middleware('admin')->get('/admin', function () {
+    return view('index');
+});
+                                                            
+                                                        
+Route::middleware('admin')->group(function () {
+    Route::resource('appointments', AppointmentController::class);
 });
 
