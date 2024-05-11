@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class IsAdmin
+class IsDoctor
 {
     /**
      * Handle an incoming request.
@@ -17,7 +17,7 @@ class IsAdmin
     public function handle(Request $request, Closure $next)
     {
         //Verifica si el usuario actual está autenticado y es un administrador
-        if (auth()->check() && auth()->user()->isAdmin()) {
+        if (auth()->check() && auth()->user()->isDoctor()) {
             return $next($request);
         }
 

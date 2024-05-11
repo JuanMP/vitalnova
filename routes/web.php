@@ -6,6 +6,8 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Middleware\IsAdmin;
+use App\Http\Middleware\IsDoctor;
+
 
 
 
@@ -66,6 +68,9 @@ Route::middleware('admin')->get('/admin', function () {
 
 
 Route::middleware([IsAdmin::class])->group(function () {
-    Route::resource('appointments', AppointmentController::class);
+
 });
 
+Route::middleware([IsDoctor::class])->group(function () {
+    Route::resource('appointments', AppointmentController::class);
+});
