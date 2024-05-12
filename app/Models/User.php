@@ -57,4 +57,9 @@ class User extends Authenticatable
         return $this->rol === 'doctor';
     }
 
+    public function isReceptionist()
+    {
+        return $this->rol === 'receptionist';
+    }
+
 }

@@ -7,6 +7,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Middleware\IsAdmin;
 use App\Http\Middleware\IsDoctor;
+use App\Http\Middleware\IsReceptionist;
+
 
 
 
@@ -72,5 +74,9 @@ Route::middleware([IsAdmin::class])->group(function () {
 });
 
 Route::middleware([IsDoctor::class])->group(function () {
+
+});
+
+Route::middleware([IsReceptionist::class])->group(function () {
     Route::resource('appointments', AppointmentController::class);
 });
