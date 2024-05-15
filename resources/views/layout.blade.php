@@ -11,8 +11,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="{{ asset('js/arriba.js') }}"></script>
-    <link rel="stylesheet" href="styles.css">
+    <!-- <script src="{{ asset('js/arriba.js') }}"></script> -->
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <title>Vitalnova</title>
     @include('partials.nav')
@@ -23,7 +24,7 @@
 </head>
 <body>
 
-    <div class="container mt-5">
+    <div class="container mt-5 prueba">
     @yield('content')
     </div>
 

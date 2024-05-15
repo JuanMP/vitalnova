@@ -21,19 +21,7 @@
   </div>
 </section>
 
-<script>
-      document.addEventListener('DOMContentLoaded', function() {
-    var elems = document.querySelectorAll('.carousel');
-    var instances = M.Carousel.init(elems, options);
-  });
 
-  // Or with jQuery
-
-  $(document).ready(function(){
-    $('.carousel').carousel();
-  });
-
-  </script>
 <section class="section grey lighten-4">
     <div class="container">
         <h2 class="center-align">Nuestros Servicios</h2>
