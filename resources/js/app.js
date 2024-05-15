@@ -1,9 +1,12 @@
 import './bootstrap';
+import 'materialize-css';
+import 'materialize-css/dist/css/materialize.min.css';
 
 
 //CARROUSEL 2
       document.addEventListener('DOMContentLoaded', function() {
     var elems = document.querySelectorAll('.carousel');
+	var options = {};
     var instances = M.Carousel.init(elems, options);
   });
   //Con jQuery
@@ -32,3 +35,8 @@ $(document).ready(function(){
 	});
 
 });
+
+//CARROUSEL 2 PRINCIPAL
+$(document).ready(function(){
+    $('.slider').slider();
+  });
