@@ -78,5 +78,7 @@ Route::middleware([IsDoctor::class])->group(function () {
 });
 
 Route::middleware([IsReceptionist::class])->group(function () {
-    Route::resource('appointments', AppointmentController::class);
 });
+
+Route::resource('appointments', AppointmentController::class);
+
