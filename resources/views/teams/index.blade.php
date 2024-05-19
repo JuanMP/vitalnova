@@ -12,7 +12,7 @@
                     <div class="col s12 m6">
                         <div class="card">
                             <div class="card-image">
-                                <img src="images/odontologo.jpg" alt="Odontólogo">
+                                <img src="img/others/doctor.jpg" alt="Odontólogo">
                                 <span class="card-title">Dr. Juan Pérez</span>
                             </div>
                             <div class="card-content">
@@ -23,7 +23,7 @@
                     <div class="col s12 m6">
                         <div class="card">
                             <div class="card-image">
-                                <img src="images/ortodoncista.jpg" alt="Ortodoncista">
+                                <img src="img/others/doctor.jpg" alt="Ortodoncista">
                                 <span class="card-title">Dra. María García</span>
                             </div>
                             <div class="card-content">
@@ -37,7 +37,7 @@
                     <div class="col s12 m6">
                         <div class="card">
                             <div class="card-image">
-                                <img src="images/auxiliar.jpg" alt="Auxiliar">
+                                <img src="img/others/doctor.jpg" alt="Auxiliar">
                                 <span class="card-title">María López</span>
                             </div>
                             <div class="card-content">
@@ -48,7 +48,7 @@
                     <div class="col s12 m6">
                         <div class="card">
                             <div class="card-image">
-                                <img src="images/recepcionista.jpg" alt="Recepcionista">
+                                <img src="img/others/doctor.jpg" alt="Recepcionista">
                                 <span class="card-title">Laura Martínez</span>
                             </div>
                             <div class="card-content">
@@ -59,7 +59,7 @@
                 </div>
             </div>
         </section>
-    </main>
+
 
 
 @endsection
