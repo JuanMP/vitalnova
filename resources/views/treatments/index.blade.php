@@ -5,8 +5,8 @@
 @section('content')
 
 <!-- Sección de Parallax -->
-<div class="parallax-container">
-    <div class="parallax"><img src="img/slider/sonrisa.jpg"></div></div>
+{{-- <div class="parallax-container">
+    <div class="parallax"><img src="img/slider/sonrisa.jpg"></div></div> --}}
 
 <section class="section white">
     <div class="container">

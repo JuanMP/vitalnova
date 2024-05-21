@@ -8,8 +8,7 @@
             <li class="active"><a href="{{ route('index') }}">Inicio</a></li>
             <li><a href="{{ route('treatments') }}">Tratamientos</a></li>
             <li><a href="{{ route('teams') }}">Equipo</a></li>
-            <li><a href="badges.html">Servicios</a></li>
-            <li><a href="collapsible.html">Donde Estamos</a></li>
+            <li><a href="{{ route('contact') }}">Donde Estamos</a></li>
         </ul>
         @if (!auth()->check())
         <ul class="right hide-on-med-and-down">

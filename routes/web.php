@@ -82,3 +82,5 @@ Route::middleware([IsReceptionist::class])->group(function () {
 
 Route::resource('appointments', AppointmentController::class);
 
+//Página de Contacto (Donde Estamos) temporal
+Route::view('/contact', 'contact.index')->name('contact');
