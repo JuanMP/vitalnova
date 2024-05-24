@@ -82,16 +82,5 @@ Route::middleware([IsDoctor::class])->group(function () {
 });
 
 Route::middleware([IsReceptionist::class])->group(function () {
+    Route::resource('appointments', AppointmentController::class);
 });
-Route::resource('appointments', AppointmentController::class);
-use App\Http\Controllers\CitaController;
-
-
-
-
-Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointments.index');
-Route::get('/appointments/create', [AppointmentController::class, 'create'])->name('appointments.create');
-Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
-
-//RUTA PARA GENERAR PDF
-Route::get('/generate-document/{appointmentId}', [DocumentController::class, 'generateAppointmentDocument'])->name('generate.document');
