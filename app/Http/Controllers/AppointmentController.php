@@ -2,120 +2,64 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Appointment;
 use Illuminate\Http\Request;
+use App\Models\Appointment;
+use Illuminate\Support\Facades\Auth;
 
 class AppointmentController extends Controller
 {
-    /**
-     * Show the form for creating a new resource.
-     */
 
-
-     public function index()
+    public function index()
 {
-    //Obtener todas las citas disponibles
-    $appointments = Appointment::where('status', 'available')->get();
-    
-    //Retornar la vista index con las citas disponibles
+    if (Auth::user()->hasRol('user')) {
+        $appointments = Appointment::where('user_id', Auth::id())->get();
+    } else {
+        $appointments = Appointment::all();
+    }
+
     return view('appointments.index', compact('appointments'));
 }
 
     public function create()
     {
-        //Obtener todas las citas
-        $allAppointments = Appointment::all();
-
-        //Definir los intervalos de tiempo disponibles
-        $availableTimes = ['09:00', '10:00', '11:00', '12:00', '13:00'];
-
-        //Inicializar un array para almacenar los intervalos disponibles
-        $availableSlots = [];
-
-        //Iterar sobre los intervalos de tiempo disponibles
-        foreach ($availableTimes as $time) {
-            //Verificar si ya hay una cita reservada para este intervalo
-            $existingAppointment = $allAppointments->firstWhere('hour', $time);
-
-            //Determinar la disponibilidad del intervalo
-            $available = !$existingAppointment;
-
-            //Agregar el intervalo a la lista de disponibles
-            $availableSlots[] = [
-                'time' => $time,
-                'available' => $available,
-            ];
-        }
-
-        //Pasar los intervalos disponibles a la vista
-        return view('appointments.create', compact('availableSlots'));
+        $appointments = Appointment::all();
+        return view('appointments.create', compact('appointments'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //Obtener la fecha y hora de la cita
-        $date = $request->input('date');
-        $hour = $request->input('hour');
-        $dateTime = $date . ' ' . $hour;
+        //Valida los datos del formulario
+        $request->validate([
+            'date' => 'required|date',
+            'time' => 'required',
+            'email' => 'required|email',
+            'telephone' => 'required',
+            'specialist' => 'required',
+        ]);
 
-        // Verificar si ya hay una cita reservada para esta fecha y hora
-        $existingAppointment = Appointment::where('date', $date)
-                                           ->where('hour', $hour)
-                                           ->exists();
+        //Crea una nueva instancia de Appointment y asigna los valores del formulario
+        $appointment = new Appointment();
+        $appointment->user_id = Auth::id(); //Obtiene el ID del usuario autenticado
+        $appointment->date = $request->input('date');
+        $appointment->time = $request->input('time');
+        $appointment->email = $request->input('email');
+        $appointment->telephone = $request->input('telephone');
+        $appointment->comentario = $request->input('comentario');
+        $appointment->specialist = $request->input('specialist');
+        
+        //Guarda la cita en la base de datos
+        $appointment->save();
 
-        if ($existingAppointment) {
-            // Si ya hay una cita reservada, redirigir con un mensaje de error
-            return redirect()->back()->with('error', '¡Lo sentimos! Esta cita ya está reservada.');
-        } else {
-            // Si la cita está disponible, guardarla en la base de datos
-            $appointment = new Appointment();
-            $appointment->name = $request->input('name');
-            $appointment->email = $request->input('email');
-            $appointment->telephone = $request->input('telephone');
-            $appointment->date = $date;
-            $appointment->hour = $hour;
-            $appointment->status = 'reserved'; // Establecer el estado como reservado
-            $appointment->commentary = $request->input('commentary');
-            $appointment->save();
-
-            // Redirigir a una vista de confirmación de cita o mostrar un mensaje de éxito
-            return view('appointments.stored', compact('appointment'));
-        }
+        //Redirige al usuario con un mensaje de éxito
+        return redirect()->route('appointments.index')->with('success', 'Cita creada con éxito!');
     }
 
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Appointment $appointment)
+    //Función para eliminar cita
+    public function destroy($id)
     {
-        //
-    }
+        $appointment = Appointment::findOrFail($id);
+        $appointment->delete();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Appointment $appointment)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Appointment $appointment)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Appointment $appointment)
-    {
-        //
+        return redirect()->route('appointments.index')->with('success', 'La cita se ha eliminado satisfactoriamente');
     }
 }

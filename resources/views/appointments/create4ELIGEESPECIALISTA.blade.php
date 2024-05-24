@@ -59,21 +59,6 @@
         background-color: #eee;
         cursor: not-allowed;
     }
-
-    /* Estilos para los botones */
-    .specialist-btn {
-        margin: 0 5px;
-        background-color: #2196F3; /* Color azul inicial */
-        color: white; /* Texto blanco */
-        transition: background-color 0.3s;
-    }
-    .specialist-btn:hover {
-        background-color: #1976D2; /* Color azul oscuro al pasar el mouse */
-    }
-    .specialist-btn.selected {
-        background-color: #4CAF50 !important; /* Color verde cuando está seleccionado */
-        color: white !important;
-    }
 </style>
 
 <div class="container">
@@ -82,17 +67,17 @@
         <div>{{ session('success') }}</div>
     @endif
 
-    <!-- DE BOTONES PARA ELEGIR ESPECIALISTA (CON DESPLEGABLE DABA PROBLEMAS) -->
-    <div class="row">
-        <div class="input-field col s12">
-            <label for="specialist">Elige el especialista</label>
-        </div>
-        <div class="input-field col s12 center-align">
-            <button class=" btn specialist-btn" data-specialist="orthodontist">Ortodoncista</button>
-            <button class=" btn specialist-btn" data-specialist="dentist">Odontólogo</button>
-            <button class=" btn specialist-btn" data-specialist="hygienist">Higienista</button>
-        </div>
+    <div>
+        <label for="specialist">Elige el especialista</label>
+        <select id="specialist">
+            <option value="">Elige</option>
+            <option value="orthodontist">Ortodoncista</option>
+            <option value="dentist" selected>Odontólogo</option>
+            <option value="hygienist">Higienista</option>
+        </select>
     </div>
+
+    
 
     <div id='calendar'></div>
 
@@ -127,17 +112,19 @@
 <script>
     $(document).ready(function() {
         var appointments = @json($appointments);
-        var currentSpecialist = null;
 
-        function renderCalendar(specialist = null) {
-            var filteredAppointments = specialist 
-                ? appointments.filter(function(app) { return app.specialist === specialist; })
-                : [];
+        function renderCalendar(specialist) {
+            var filteredAppointments = appointments;
 
-            $('#calendar').fullCalendar('destroy'); //Destruye la instancia actual del calendario
+            if (specialist) {
+                filteredAppointments = appointments.filter(function(app) {
+                    return app.specialist === specialist;
+                });
+            }
+
+            $('#calendar').fullCalendar('destroy'); //Destruye el calendario
 
             $('#calendar').fullCalendar({
-                locale: 'es',
                 events: filteredAppointments.map(function(app) {
                     return {
                         title: app.email,
@@ -146,21 +133,16 @@
                     };
                 }),
                 dayClick: function(date, jsEvent, view) {
-                    if (!currentSpecialist) {
-                        alert("Por favor, seleccione un especialista");
-                        return;
-                    }
-
                     var today = moment().startOf('day');
                     var selectedDate = date.startOf('day');
 
                     if (date.day() === 0) {
-                        alert("Lo siento, no se pueden reservar citas los domingos");
+                        alert("Lo siento, no se pueden reservar citas los domingos.");
                         return;
                     }
 
                     if (selectedDate.isBefore(today)) {
-                        alert("Lo siento, no se pueden reservar citas en días anteriores");
+                        alert("Lo siento, no se pueden reservar citas en días anteriores.");
                         return;
                     }
 
@@ -186,7 +168,7 @@
                     });
 
                     $('#appointmentDate').val(selectedDate);
-                    $('#appointmentSpecialist').val(currentSpecialist); //Hace set del especialista seleccionado
+                    $('#appointmentSpecialist').val(specialist); //Hace set del especialista seleccionado
                     $('.time-slots').html(timeSlotsHtml);
                     $('#bookingModal').show();
 
@@ -219,25 +201,12 @@
             $('#bookingModal').hide();
         });
 
-        $('.specialist-btn').click(function() {
-            var selectedSpecialist = $(this).data('specialist');
-
-            if (currentSpecialist === selectedSpecialist) {
-                //Si el mismo especialista está seleccionado, oculta las citas
-                currentSpecialist = null;
-                $('.specialist-btn').removeClass('selected'); //Quita la clase 'selected' de todos los botones
-                renderCalendar();
-            } else {
-                //Muestra las citas del especialista seleccionado
-                currentSpecialist = selectedSpecialist;
-                $('.specialist-btn').removeClass('selected'); //Quita la clase 'selected' de todos los botones
-                $(this).addClass('selected'); //Agrega la clase 'selected' al botón seleccionado
-                renderCalendar(selectedSpecialist);
-            }
+        $('#specialist').change(function() {
+            var selectedSpecialist = $(this).val();
+            renderCalendar(selectedSpecialist);
         });
 
-        //Renderiza el calendario vacío al cargar la página
-        renderCalendar();
+        renderCalendar($('#specialist').val());
     });
 </script>
 

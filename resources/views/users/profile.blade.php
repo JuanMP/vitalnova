@@ -56,4 +56,25 @@
   </div>
 </div>
 
+@if(count($appointments) > 0)
+  <div class="container">
+    <div class="row">
+      <div class="col s12">
+        <h5 class="center-align">Citas</h5>
+        <ul class="collection">
+          @foreach($appointments as $appointment)
+            <li class="collection-item">
+              <div>{{ $appointment->date }} - {{ $appointment->specialist }}
+                <a href="{{ route('generate.document', $appointment->id) }}" class="secondary-content">
+                  <i class="material-icons">file_download</i>
+                </a>
+              </div>
+            </li>
+          @endforeach
+        </ul>
+      </div>
+    </div>
+  </div>
+@endif
+
 @endsection

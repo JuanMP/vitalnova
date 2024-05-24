@@ -82,7 +82,6 @@
         <div>{{ session('success') }}</div>
     @endif
 
-    <!-- DE BOTONES PARA ELEGIR ESPECIALISTA (CON DESPLEGABLE DABA PROBLEMAS) -->
     <div class="row">
         <div class="input-field col s12">
             <label for="specialist">Elige el especialista</label>
@@ -134,7 +133,7 @@
                 ? appointments.filter(function(app) { return app.specialist === specialist; })
                 : [];
 
-            $('#calendar').fullCalendar('destroy'); //Destruye la instancia actual del calendario
+            $('#calendar').fullCalendar('destroy'); // Destruir la instancia actual del calendario
 
             $('#calendar').fullCalendar({
                 locale: 'es',
@@ -147,7 +146,7 @@
                 }),
                 dayClick: function(date, jsEvent, view) {
                     if (!currentSpecialist) {
-                        alert("Por favor, seleccione un especialista");
+                        alert("Por favor, seleccione un especialista primero.");
                         return;
                     }
 
@@ -155,12 +154,12 @@
                     var selectedDate = date.startOf('day');
 
                     if (date.day() === 0) {
-                        alert("Lo siento, no se pueden reservar citas los domingos");
+                        alert("Lo siento, no se pueden reservar citas los domingos.");
                         return;
                     }
 
                     if (selectedDate.isBefore(today)) {
-                        alert("Lo siento, no se pueden reservar citas en días anteriores");
+                        alert("Lo siento, no se pueden reservar citas en días anteriores.");
                         return;
                     }
 
@@ -186,7 +185,7 @@
                     });
 
                     $('#appointmentDate').val(selectedDate);
-                    $('#appointmentSpecialist').val(currentSpecialist); //Hace set del especialista seleccionado
+                    $('#appointmentSpecialist').val(currentSpecialist); // Set the selected specialist
                     $('.time-slots').html(timeSlotsHtml);
                     $('#bookingModal').show();
 
@@ -228,7 +227,7 @@
                 $('.specialist-btn').removeClass('selected'); //Quita la clase 'selected' de todos los botones
                 renderCalendar();
             } else {
-                //Muestra las citas del especialista seleccionado
+                // Mostrar citas del especialista seleccionado
                 currentSpecialist = selectedSpecialist;
                 $('.specialist-btn').removeClass('selected'); //Quita la clase 'selected' de todos los botones
                 $(this).addClass('selected'); //Agrega la clase 'selected' al botón seleccionado
@@ -236,7 +235,7 @@
             }
         });
 
-        //Renderiza el calendario vacío al cargar la página
+        //Renderizar el calendario vacío al cargar la página
         renderCalendar();
     });
 </script>

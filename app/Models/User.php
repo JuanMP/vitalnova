@@ -62,4 +62,10 @@ class User extends Authenticatable
         return $this->rol === 'receptionist';
     }
 
+    //PARA ROL ESPECÍFICO
+    public function hasRol($rol)
+    {
+        return $this->rol === $rol;
+    }
+
 }

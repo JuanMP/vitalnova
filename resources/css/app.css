@@ -52,3 +52,11 @@
     z-index: 100;
     /* text-align: left; */
   }
+
+
+
+
+  .hour-btn.available {
+    background-color: #2196f3 !important;
+}
+
