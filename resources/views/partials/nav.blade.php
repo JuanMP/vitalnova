@@ -6,7 +6,7 @@
         <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         <ul class="left hide-on-med-and-down">
             <li class="active"><a href="{{ route('index') }}">Inicio</a></li>
-            <li><a href="{{ route('treatments') }}">Tratamientos</a></li>
+            <li><a href="{{ route('treatments.index') }}">Tratamientos</a></li>
             <li><a href="{{ route('teams') }}">Equipo</a></li>
             <li><a href="{{ route('contact') }}">Donde Estamos</a></li>
         </ul>
@@ -27,7 +27,7 @@
 
 <ul class="sidenav" id="mobile-demo">
     <li><a href="{{ route('index') }}">Inicio</a></li>
-    <li><a href="{{ route('treatments') }}">Tratamientos</a></li>
+    <li><a href="{{ route('treatments.index') }}">Tratamientos</a></li>
     <li><a href="{{ route('teams') }}">Equipo</a></li>
     <li><a href="badges.html">Servicios</a></li>
     <li class="active"><a href="collapsible.html">Donde Estamos</a></li>

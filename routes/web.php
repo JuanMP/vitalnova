@@ -9,6 +9,8 @@ use App\Http\Middleware\IsAdmin;
 use App\Http\Middleware\IsDoctor;
 use App\Http\Middleware\IsReceptionist;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\TreatmentController;
+
 
 
 
@@ -42,7 +44,6 @@ Route::get('/cookies/settings', function () {
 
 //Rutas para el navbar
 Route::view('/', 'index')->name('index');
-Route::view('/treatments', 'treatments.index')->name('treatments');
 Route::view('/teams', 'teams.index')->name('teams');
 //estas no valen porque solo son para ver
 Route::view('/login', 'auth.login')->name('login');
@@ -74,13 +75,31 @@ Route::middleware('admin')->get('/admin', function () {
 
 
 Route::middleware([IsAdmin::class])->group(function () {
-
+    Route::get('treatments/create', [TreatmentController::class, 'create'])->name('treatments.create');
+    Route::post('treatments', [TreatmentController::class, 'store'])->name('treatments.store');
+    Route::get('treatments/{treatment}/edit', [TreatmentController::class, 'edit'])->name('treatments.edit');
+    Route::put('treatments/{treatment}', [TreatmentController::class, 'update'])->name('treatments.update');
+    Route::delete('treatments/{treatment}', [TreatmentController::class, 'destroy'])->name('treatments.destroy');
 });
+
+//Ruta index para los users
+Route::get('/treatments', [TreatmentController::class, 'index'])->name('treatments.index');
+
 
 Route::middleware([IsDoctor::class])->group(function () {
 
 });
 
 Route::middleware([IsReceptionist::class])->group(function () {
-    Route::resource('appointments', AppointmentController::class);
+
 });
+
+Route::resource('appointments', AppointmentController::class);
+
+//Página de Contacto (Donde Estamos) temporal
+Route::view('/contact', 'contact.index')->name('contact');
+
+//RUTA PARA GENERAR PDF
+Route::get('/generate-document/{appointmentId}', [DocumentController::class, 'generateAppointmentDocument'])->name('generate.document');
+
+

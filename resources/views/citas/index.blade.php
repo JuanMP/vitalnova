@@ -1,4 +1,4 @@
-@extends('layout')
+{{-- @extends('layout')
 
 @section('title', 'Citas')
 
@@ -13,4 +13,4 @@
         </select>
         <button type="submit">Reservar cita</button>
     </form>
-@endsection
+@endsection --}}
