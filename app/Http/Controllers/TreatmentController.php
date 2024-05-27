@@ -27,6 +27,7 @@ class TreatmentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    //Esta es la forma más limpia, que utiliza el método del create para los datos pero también se puede crear una nueva instancia y asignar uno por uno
     public function store(Request $request)
     {
         $request->validate([

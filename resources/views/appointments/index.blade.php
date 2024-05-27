@@ -23,7 +23,7 @@
                     <div class="col s12 m6">
                         <div class="card">
                             <div class="card-content">
-                                <h5><strong>Cita con {{ $appointment->specialist }}</strong></h5>
+                                <h5><strong>Cita con {{ $appointment->doctor->name }}</strong></h5>
                                 <span class="card-title"><strong>Fecha:</strong> {{ $appointment->date }}</span>
                                 <p><strong>Hora:</strong> {{ $appointment->time }}</p>
                                 <p><strong>Observaciones:</strong> {{ $appointment->comentario }}</p>
