@@ -7,7 +7,7 @@
         <ul class="left hide-on-med-and-down">
             <li class="active"><a href="{{ route('index') }}">Inicio</a></li>
             <li><a href="{{ route('treatments.index') }}">Tratamientos</a></li>
-            <li><a href="{{ route('teams') }}">Equipo</a></li>
+            <li><a href="{{ route('teams.index') }}">Equipo</a></li>
             <li><a href="{{ route('contact') }}">Donde Estamos</a></li>
         </ul>
         @if (!auth()->check())
@@ -28,7 +28,7 @@
 <ul class="sidenav" id="mobile-demo">
     <li><a href="{{ route('index') }}">Inicio</a></li>
     <li><a href="{{ route('treatments.index') }}">Tratamientos</a></li>
-    <li><a href="{{ route('teams') }}">Equipo</a></li>
+    <li><a href="{{ route('teams.index') }}">Equipo</a></li>
     <li><a href="badges.html">Servicios</a></li>
     <li class="active"><a href="collapsible.html">Donde Estamos</a></li>
     <li><a href="{{ route('login')}}">Login</a></li>

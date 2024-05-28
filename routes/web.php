@@ -10,6 +10,7 @@ use App\Http\Middleware\IsDoctor;
 use App\Http\Middleware\IsReceptionist;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\TreatmentController;
+use App\Http\Controllers\TeamController;
 
 
 
@@ -103,3 +104,4 @@ Route::view('/contact', 'contact.index')->name('contact');
 Route::get('/generate-document/{appointmentId}', [DocumentController::class, 'generateAppointmentDocument'])->name('generate.document');
 
 
+Route::get('/teams', [TeamController::class, 'index'])->name('teams.index');
