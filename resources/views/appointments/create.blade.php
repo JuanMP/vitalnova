@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', 'Crear Cita')
+@section('title', 'Citas')
 
 @section('content')
 
@@ -74,24 +74,6 @@
         background-color: #4CAF50 !important; /* Color verde cuando está seleccionado */
         color: white !important;
     }
-    .doctor-btn {
-        margin: 0 5px;
-        background-color: #FFA726; /* Color naranja inicial */
-        color: white; /* Texto blanco */
-        transition: background-color 0.3s;
-    }
-    .doctor-btn:hover {
-        background-color: #FB8C00; /* Color naranja oscuro al pasar el mouse */
-    }
-    .doctor-btn.selected {
-        background-color: #FF5722 !important; /* Color rojo cuando está seleccionado */
-        color: white !important;
-    }
-    .doctor-btn.disabled {
-        background-color: #eee;
-        color: #ccc;
-        cursor: not-allowed;
-    }
 </style>
 
 <div class="container">
@@ -100,15 +82,15 @@
         <div>{{ session('success') }}</div>
     @endif
 
-    <!-- BOTONES PARA ELEGIR ESPECIALISTA (CON DESPLEGABLE DABA PROBLEMAS) -->
+    <!-- DE BOTONES PARA ELEGIR ESPECIALISTA (CON DESPLEGABLE DABA PROBLEMAS) -->
     <div class="row">
         <div class="input-field col s12">
             <label for="specialist">Elige el especialista</label>
         </div>
         <div class="input-field col s12 center-align">
-            <button class="btn specialist-btn" data-specialist="1">Ortodoncista</button>
-            <button class="btn specialist-btn" data-specialist="2">Odontólogo</button>
-            <button class="btn specialist-btn" data-specialist="3">Higienista</button>
+            <button class=" btn specialist-btn" data-specialist="orthodontist">Ortodoncista</button>
+            <button class=" btn specialist-btn" data-specialist="dentist">Odontólogo</button>
+            <button class=" btn specialist-btn" data-specialist="hygienist">Higienista</button>
         </div>
     </div>
 
@@ -120,16 +102,7 @@
                 @csrf
                 <input type="hidden" name="date" id="appointmentDate">
                 <input type="hidden" name="time" id="appointmentTime">
-                <input type="hidden" name="specialist_id" id="appointmentSpecialist">
-                <input type="hidden" name="doctor_id" id="doctor_id">
-                <label for="doctor_id">Elige el Doctor:</label>
-                <div class="row" id="doctorsList">
-                    @foreach($doctors as $doctor)
-                        <div class="col">
-                            <button type="button" class="btn doctor-btn" data-doctor-id="{{ $doctor->id }}" data-specialist-id="{{ $doctor->specialist_id }}">{{ $doctor->name }}</button>
-                        </div>
-                    @endforeach
-                </div>
+                <input type="hidden" name="specialist" id="appointmentSpecialist">
                 <label for="time">Selecciona la hora:</label>
                 <div class="time-slots"></div>
                 <div>
@@ -145,7 +118,7 @@
                     <textarea name="comentario" id="comentario"></textarea>
                 </div>
                 <button type="submit" id="bookAppointmentBtn" disabled>Confirmar Cita</button>
-                <button type="button" onclick="document.getElementById('bookingModal').style.display='none'">Cancelar</button>
+                <button type="button" onclick="document.getElementById('bookingModal').style.display='none'">Cancel</button>
             </form>
         </div>
     @endif
@@ -154,12 +127,11 @@
 <script>
     $(document).ready(function() {
         var appointments = @json($appointments);
-        var doctors = @json($doctors);
         var currentSpecialist = null;
 
         function renderCalendar(specialist = null) {
-            var filteredAppointments = specialist
-                ? appointments.filter(function(app) { return app.specialist_id == specialist; })
+            var filteredAppointments = specialist 
+                ? appointments.filter(function(app) { return app.specialist === specialist; })
                 : [];
 
             $('#calendar').fullCalendar('destroy'); //Destruye la instancia actual del calendario
@@ -216,48 +188,55 @@
                     $('#appointmentDate').val(selectedDate);
                     $('#appointmentSpecialist').val(currentSpecialist); //Hace set del especialista seleccionado
                     $('.time-slots').html(timeSlotsHtml);
-
-                    $('.time-slot:not(.disabled)').on('click', function() {
-                        $('.time-slot').removeClass('selected');
-                        $(this).addClass('selected');
-                        $('#appointmentTime').val($(this).data('time'));
-                        checkFormValidity();
-                    });
-
                     $('#bookingModal').show();
+
+                    checkSelectedTime();
                 }
             });
         }
 
-        function checkFormValidity() {
+        function checkSelectedTime() {
             var selectedTime = $('#appointmentTime').val();
-            var selectedDoctor = $('#doctor_id').val();
-            if (selectedTime && selectedDoctor) {
+            if (selectedTime) {
                 $('#bookAppointmentBtn').prop('disabled', false);
             } else {
                 $('#bookAppointmentBtn').prop('disabled', true);
             }
         }
 
-        $('.specialist-btn').on('click', function() {
-            currentSpecialist = $(this).data('specialist');
-            $('.specialist-btn').removeClass('selected');
+        $(document).on('click', '.time-slot:not(.disabled)', function() {
+            $('.time-slot.selected').removeClass('selected');
             $(this).addClass('selected');
-            renderCalendar(currentSpecialist);
-            $('#doctor_id').val('');
-            $('.doctor-btn').removeClass('selected').prop('disabled', true);
-            $('.doctor-btn[data-specialist-id="' + currentSpecialist + '"]').prop('disabled', false);
+            var selectedTime = $(this).data('time');
+            $('#appointmentTime').val(selectedTime);
+            checkSelectedTime();
         });
 
-        $('.doctor-btn').on('click', function() {
-            if (!$(this).hasClass('disabled')) {
-                $('.doctor-btn').removeClass('selected');
-                $(this).addClass('selected');
-                $('#doctor_id').val($(this).data('doctor-id'));
-                checkFormValidity();
+        $('#bookingModal form').submit(function(event) {
+            event.preventDefault();
+            this.submit();
+            alert("Cita creada con éxito!");
+            $('#bookingModal').hide();
+        });
+
+        $('.specialist-btn').click(function() {
+            var selectedSpecialist = $(this).data('specialist');
+
+            if (currentSpecialist === selectedSpecialist) {
+                //Si el mismo especialista está seleccionado, oculta las citas
+                currentSpecialist = null;
+                $('.specialist-btn').removeClass('selected'); //Quita la clase 'selected' de todos los botones
+                renderCalendar();
+            } else {
+                //Muestra las citas del especialista seleccionado
+                currentSpecialist = selectedSpecialist;
+                $('.specialist-btn').removeClass('selected'); //Quita la clase 'selected' de todos los botones
+                $(this).addClass('selected'); //Agrega la clase 'selected' al botón seleccionado
+                renderCalendar(selectedSpecialist);
             }
         });
 
+        //Renderiza el calendario vacío al cargar la página
         renderCalendar();
     });
 </script>
