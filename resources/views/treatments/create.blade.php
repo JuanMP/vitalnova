@@ -41,6 +41,17 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <select name="doctor_id" id="doctor_id" required>
+                    <option value="" disabled selected>Seleccionar Doctor</option>
+                    @foreach($doctors as $doctor)
+                        <option value="{{ $doctor->id }}">{{ $doctor->name }} - {{ $doctor->specialty }}</option>
+                    @endforeach
+                </select>
+                <label for="doctor_id">Doctor Responsable</label>
+            </div>
+        </div>
         <button type="submit" class="btn waves-effect waves-light">Guardar Tratamiento</button>
     </form>
 </div>

@@ -1,5 +1,7 @@
 <?php
 
+// app/Models/Treatment.php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,9 +11,16 @@ class Treatment extends Model
 {
     use HasFactory;
 
-
     protected $fillable = [
-        'title', 'image', 'description',
+        'title', 'description', 'image', 'doctor_id'
     ];
 
+    public function doctor()
+    {
+        return $this->belongsTo(User::class, 'doctor_id');
+    }
 }
+
+
+
+

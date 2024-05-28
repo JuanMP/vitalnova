@@ -23,7 +23,7 @@
                             <span class="card-title">{{ $doctor->name }}</span>
                         </div>
                         <div class="card-content">
-                            <p>Especialidad: {{ $doctor->specialty }}</p>
+                            <p>{{ $doctor->specialty}}</p>
                             <p>{{ $doctor->description }}</p>
                         </div>
                     </div>

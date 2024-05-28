@@ -27,6 +27,18 @@
             @endif
         </div>
 
+        <div class="form-group">
+            <label for="doctor_id">Doctor Responsable</label>
+            <select name="doctor_id" id="doctor_id" class="form-control" required>
+                <option value="" disabled selected>Seleccionar Doctor</option>
+                @foreach($doctors as $doctor)
+                    <option value="{{ $doctor->id }}" {{ $treatment->doctor_id == $doctor->id ? 'selected' : '' }}>
+                        {{ $doctor->name }} - {{ $doctor->specialty }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
     </form>
 </div>

@@ -39,6 +39,10 @@
     <!-- CALENDARIO IDIOMA ESPAÑOL -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/locale/es.js"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+
+
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 

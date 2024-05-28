@@ -15,7 +15,7 @@ import 'materialize-css';
   });
 
 
-  
+
 
 //BOTON PARA SCROLL DE SUBIDA
 $(document).ready(function(){
@@ -40,3 +40,10 @@ $(document).ready(function(){
 $(document).ready(function(){
     $('.slider').slider();
   });
+
+  //PARA MOSTRAR CON MATERIALIZE
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('select');
+            var instances = M.FormSelect.init(elems);
+        });

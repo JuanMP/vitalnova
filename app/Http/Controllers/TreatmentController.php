@@ -3,41 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Models\Treatment;
+use App\Models\User; // Importar el modelo User
 use Illuminate\Http\Request;
 
 class TreatmentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $treatments = Treatment::all();
+        $treatments = Treatment::with('doctor')->get();
         return view('treatments.index', compact('treatments'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        return view('treatments.create');
+        $doctors = User::where('rol', 'doctor')->get(); // Obtener solo doctores
+        return view('treatments.create', compact('doctors'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
             'title' => 'required|string|max:255',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'description' => 'required|string',
+            'doctor_id' => 'required|exists:users,id',
         ]);
 
         $treatment = new Treatment();
         $treatment->title = $request->get('title');
         $treatment->description = $request->get('description');
+        $treatment->doctor_id = $request->get('doctor_id');
 
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('public/treatments');
@@ -51,9 +46,6 @@ class TreatmentController extends Controller
         return redirect()->route('treatments.index')->with('success', 'Tratamiento añadido con éxito');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Treatment $treatment)
     {
         if (!auth()->check()) {
@@ -63,27 +55,24 @@ class TreatmentController extends Controller
         return view('treatments.show', compact('treatment'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Treatment $treatment)
     {
-        return view('treatments.edit', compact('treatment'));
+        $doctors = User::where('rol', 'doctor')->get();
+        return view('treatments.edit', compact('treatment', 'doctors'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Treatment $treatment)
     {
         $request->validate([
             'title' => 'required|string|max:255',
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             'description' => 'required|string',
+            'doctor_id' => 'required|exists:users,id',
         ]);
 
         $treatment->title = $request->get('title');
         $treatment->description = $request->get('description');
+        $treatment->doctor_id = $request->get('doctor_id');
 
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('public/treatments');
@@ -95,9 +84,6 @@ class TreatmentController extends Controller
         return redirect()->route('treatments.index')->with('success', 'Tratamiento actualizado con éxito');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Treatment $treatment)
     {
         $treatment->delete();
