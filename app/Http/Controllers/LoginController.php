@@ -28,7 +28,14 @@ class LoginController extends Controller
         $user->birthday = $request->get('birthday');
         $user->telephone = $request->get('telephone');
         $user->password = Hash::make($request->get('password'));
-        $user->rol = 'user';
+
+        if (auth()->check() && auth()->user()->isAdmin()) {
+            $user->rol = $request->get('rol');
+            $user->specialty = $request->get('specialty');
+        } else {
+            $user->rol = 'user';
+        }
+
         $user->save();
 
         Auth::login($user);
@@ -44,7 +51,7 @@ class LoginController extends Controller
         if (Auth::guard('web')->attempt($credentials, $rememberLogin)) {
             $request->session()->regenerate();
             return redirect()->route('index');
-        }else {
+        } else {
             $error = 'Error al acceder a la aplicación';
             return view('auth.login', compact('error'));
         }
@@ -55,9 +62,9 @@ class LoginController extends Controller
     {
         if (Auth::viaRemember()) {
             return 'Bienvenido de nuevo';
-        }else if (Auth::check()) {
+        } else if (Auth::check()) {
             return redirect()->route('users.profile');
-        }else {
+        } else {
             return view('auth.login');
         }
     }
@@ -70,5 +77,4 @@ class LoginController extends Controller
         $request->session()->regenerateToken();
         return redirect()->route('index');
     }
-
 }
