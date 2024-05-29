@@ -20,7 +20,7 @@
         @csrf
         <div class="row">
             <div class="input-field col s12">
-                <input type="text" name="title" id="title" value="{{ old('title') }}">
+                <input type="text" name="title" id="title" value="{{ old('title') }}" required>
                 <label for="title">Nombre del Tratamiento</label>
             </div>
         </div>
@@ -39,6 +39,12 @@
                 <div class="file-path-wrapper">
                     <input class="file-path validate" type="text">
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <input type="number" name="cost" id="cost" value="{{ old('cost') }}" step="0.01" required>
+                <label for="cost">Costo</label>
             </div>
         </div>
         <div class="row">

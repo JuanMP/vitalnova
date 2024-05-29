@@ -9,37 +9,56 @@
         @csrf
         @method('PUT')
 
-        <div class="form-group">
-            <label for="title">Título</label>
-            <input type="text" name="title" id="title" class="form-control" value="{{ old('title', $treatment->title) }}" required>
+        <div class="row">
+            <div class="input-field col s12">
+                <input type="text" name="title" id="title" value="{{ old('title', $treatment->title) }}" required>
+                <label for="title">Título</label>
+            </div>
         </div>
-
-        <div class="form-group">
-            <label for="description">Descripción</label>
-            <textarea name="description" id="description" class="form-control" required>{{ old('description', $treatment->description) }}</textarea>
+        <div class="row">
+            <div class="input-field col s12">
+                <textarea name="description" id="description" class="materialize-textarea" required>{{ old('description', $treatment->description) }}</textarea>
+                <label for="description">Descripción</label>
+            </div>
         </div>
-
-        <div class="form-group">
-            <label for="image">Imagen</label>
-            <input type="file" name="image" id="image" class="form-control">
-            @if ($treatment->image)
-                <img src="{{ $treatment->image }}" alt="{{ $treatment->title }}" style="width: 100px;">
-            @endif
+        <div class="row">
+            <div class="file-field input-field col s12">
+                <div class="btn">
+                    <span>Imagen</span>
+                    <input type="file" name="image">
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text">
+                </div>
+            </div>
         </div>
-
-        <div class="form-group">
-            <label for="doctor_id">Doctor Responsable</label>
-            <select name="doctor_id" id="doctor_id" class="form-control" required>
-                <option value="" disabled selected>Seleccionar Doctor</option>
-                @foreach($doctors as $doctor)
-                    <option value="{{ $doctor->id }}" {{ $treatment->doctor_id == $doctor->id ? 'selected' : '' }}>
-                        {{ $doctor->name }} - {{ $doctor->specialty }}
-                    </option>
-                @endforeach
-            </select>
+        @if ($treatment->image)
+            <div class="row">
+                <div class="col s12">
+                    <img src="{{ $treatment->image }}" alt="{{ $treatment->title }}" style="width: 100px;">
+                </div>
+            </div>
+        @endif
+        <div class="row">
+            <div class="input-field col s12">
+                <input type="number" name="cost" id="cost" value="{{ old('cost', $treatment->cost) }}" step="0.01" required>
+                <label for="cost">Costo</label>
+            </div>
         </div>
-
-        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        <div class="row">
+            <div class="input-field col s12">
+                <select name="doctor_id" id="doctor_id" required>
+                    <option value="" disabled selected>Seleccionar Doctor</option>
+                    @foreach($doctors as $doctor)
+                        <option value="{{ $doctor->id }}" {{ $treatment->doctor_id == $doctor->id ? 'selected' : '' }}>
+                            {{ $doctor->name }} - {{ $doctor->specialty }}
+                        </option>
+                    @endforeach
+                </select>
+                <label for="doctor_id">Doctor Responsable</label>
+            </div>
+        </div>
+        <button type="submit" class="btn waves-effect waves-light">Guardar Cambios</button>
     </form>
 </div>
 @endsection

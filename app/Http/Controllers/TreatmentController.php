@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Treatment;
-use App\Models\User; // Importar el modelo User
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class TreatmentController extends Controller
@@ -16,7 +16,7 @@ class TreatmentController extends Controller
 
     public function create()
     {
-        $doctors = User::where('rol', 'doctor')->get(); // Obtener solo doctores
+        $doctors = User::where('rol', 'doctor')->get();
         return view('treatments.create', compact('doctors'));
     }
 
@@ -26,12 +26,14 @@ class TreatmentController extends Controller
             'title' => 'required|string|max:255',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'description' => 'required|string',
+            'cost' => 'required|numeric',
             'doctor_id' => 'required|exists:users,id',
         ]);
 
         $treatment = new Treatment();
         $treatment->title = $request->get('title');
         $treatment->description = $request->get('description');
+        $treatment->cost = $request->get('cost');
         $treatment->doctor_id = $request->get('doctor_id');
 
         if ($request->hasFile('image')) {
@@ -46,15 +48,6 @@ class TreatmentController extends Controller
         return redirect()->route('treatments.index')->with('success', 'Tratamiento añadido con éxito');
     }
 
-    public function show(Treatment $treatment)
-    {
-        if (!auth()->check()) {
-            return redirect()->route('loginForm');
-        }
-
-        return view('treatments.show', compact('treatment'));
-    }
-
     public function edit(Treatment $treatment)
     {
         $doctors = User::where('rol', 'doctor')->get();
@@ -67,11 +60,13 @@ class TreatmentController extends Controller
             'title' => 'required|string|max:255',
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             'description' => 'required|string',
+            'cost' => 'required|numeric',
             'doctor_id' => 'required|exists:users,id',
         ]);
 
         $treatment->title = $request->get('title');
         $treatment->description = $request->get('description');
+        $treatment->cost = $request->get('cost');
         $treatment->doctor_id = $request->get('doctor_id');
 
         if ($request->hasFile('image')) {

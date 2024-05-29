@@ -20,6 +20,7 @@
                     </div>
                     <div class="card-content">
                         <p>{{ $treatment->description }}</p>
+                        <p>{{ $treatment->cost }} €</p>
                     </div>
                     @if(auth()->check() && auth()->user()->isAdmin())
                     <div class="card-action">
