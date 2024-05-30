@@ -9,7 +9,7 @@
         <div class="col-md-6">
             <h2 class="card-header">Registro</h2>
             <div class="card-body">
-                <form action="{{ route('signup') }}" method="post">
+                <form action="{{ route('signup') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
                         <label for="name" class="form-label">Nombre completo</label>
@@ -38,6 +38,11 @@
                     <div class="mb-3">
                         <label for="password_confirmation" class="form-label">Confirmar Contraseña</label>
                         <input type="password" class="form-control" name="password_confirmation" id="password_confirmation">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Imagen de Perfil</label>
+                        <input type="file" class="form-control" name="image" id="image">
                     </div>
 
                     @if(auth()->check() && auth()->user()->isAdmin())

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->enum('rol', ['user', 'admin', 'doctor', 'receptionist'])->default('user');
             $table->date('birthday')->nullable();
             $table->string('telephone')->nullable();
+            $table->string('image')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

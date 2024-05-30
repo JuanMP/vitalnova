@@ -10,15 +10,13 @@ use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
-    //Login Probando en Laravel 11
-
-    //Login
+    //Muestra el formulario de registro
     public function signupForm()
     {
         return view('auth.signup');
     }
 
-    //Registro
+    //Registro de usuarios
     public function signup(SignupRequest $request)
     {
         $user = new User();
@@ -36,6 +34,13 @@ class LoginController extends Controller
             $user->rol = 'user';
         }
 
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('public/users');
+            $user->image = str_replace('public/', '/storage/', $imagePath);
+        } else {
+            $user->image = '/img/others/user.jpg';
+        }
+
         $user->save();
 
         Auth::login($user);
@@ -43,7 +48,7 @@ class LoginController extends Controller
         return redirect()->route('users.profile');
     }
 
-    //Login para loguearse
+    //Inicio de sesión
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
@@ -57,7 +62,7 @@ class LoginController extends Controller
         }
     }
 
-    //Login entrar
+    // Muestra el formulario de login
     public function loginForm()
     {
         if (Auth::viaRemember()) {
@@ -69,7 +74,7 @@ class LoginController extends Controller
         }
     }
 
-    //Logout para cerrar sesión
+    //Cierra la sesión del usuario
     public function logout(Request $request)
     {
         Auth::guard('web')->logout();

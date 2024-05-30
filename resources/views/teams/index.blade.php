@@ -28,7 +28,7 @@
                 <div class="col s12 m6">
                     <div class="card">
                         <div class="card-image">
-                            <img src="{{ asset('img/others/doctor.jpg') }}" alt="Doctor">
+                            <img src="{{ $doctor->image }}" alt="Doctor">
                             <span class="card-title">{{ $doctor->name }}</span>
                         </div>
                         <div class="card-content">
@@ -46,7 +46,7 @@
                 <div class="col s12 m6">
                     <div class="card">
                         <div class="card-image">
-                            <img src="{{ asset('img/others/receptionist.jpg') }}" alt="Receptionist">
+                            <img src="{{ $receptionist->image }}" alt="Receptionist">
                             <span class="card-title">{{ $receptionist->name }}</span>
                         </div>
                         <div class="card-content">
