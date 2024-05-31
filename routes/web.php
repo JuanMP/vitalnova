@@ -5,103 +5,66 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AppointmentController;
-use App\Http\Middleware\IsAdmin;
-use App\Http\Middleware\IsDoctor;
-use App\Http\Middleware\IsReceptionist;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\TreatmentController;
 use App\Http\Controllers\TeamController;
+use App\Http\Middleware\IsAdmin;
+use App\Http\Middleware\IsDoctor;
+use App\Http\Middleware\IsReceptionist;
 
-
-
-
-
-
-
-
-
+//Página de inicio
 Route::get('/', function () {
     return view('index');
-});
-
+})->name('index');
 
 //Rutas para Footer
-Route::get('/privacy/policy', function () {
-    return view('legal.privacy.policy');
-})->name('legal.privacy.policy');
-
-Route::get('/terms/conditions', function (){
-    return view('legal.terms.conditions');
-})->name('legal.terms.conditions');
-
-Route::get('/cookies/policy', function () {
-    return view('legal.cookies.policy');
-})->name('legal.cookies.policy');
-
-Route::get('/cookies/settings', function () {
-    return view('legal.cookies.settings');
-})->name('legal.cookies.settings');
-
+Route::get('/privacy/policy', function () { return view('legal.privacy.policy'); })->name('legal.privacy.policy'); // Política de privacidad
+Route::get('/terms/conditions', function () { return view('legal.terms.conditions'); })->name('legal.terms.conditions'); // Términos y condiciones
+Route::get('/cookies/policy', function () { return view('legal.cookies.policy'); })->name('legal.cookies.policy'); // Política de cookies
+Route::get('/cookies/settings', function () { return view('legal.cookies.settings'); })->name('legal.cookies.settings'); // Configuración de cookies
 
 //Rutas para el navbar
-Route::view('/', 'index')->name('index');
-Route::view('/teams', 'teams.index')->name('teams');
-//estas no valen porque solo son para ver
-Route::view('/login', 'auth.login')->name('login');
-Route::view('/signup', 'auth.signup')->name('signup');
+Route::view('/contact', 'contact.index')->name('contact'); // Página de contacto
 
-//Rutas para el inicio de sesión
-Route::get('signup', [LoginController::class, 'signupForm'])->name('signupForm');
-Route::post('signup', [LoginController::class, 'signup'])->name('signup');
-Route::get('login', [LoginController::class, 'loginForm'])->name('loginForm');
-Route::post('login', [LoginController::class, 'login'])->name('login');
-Route::get('logout', [LoginController::class, 'logout'])->name('logout');
+//Rutas de autenticación
+Route::get('signup', [LoginController::class, 'signupForm'])->name('signupForm'); // Mostrar formulario de registro
+Route::post('signup', [LoginController::class, 'signup'])->name('signup'); // Procesar registro
+Route::get('login', [LoginController::class, 'loginForm'])->name('loginForm'); // Mostrar formulario de inicio de sesión
+Route::post('login', [LoginController::class, 'login'])->name('login'); // Procesar inicio de sesión
+Route::get('logout', [LoginController::class, 'logout'])->name('logout'); // Cerrar sesión
 
-Route::get('/users/profile', [UserController::class, 'show'])->name('users.profile')->middleware('auth');
-Route::resource('users', UserController::class);
-
-
-//Roles Admin y Médico
-
-
-//Página de Citas
-//Route::resource('appointments', AppointmentController::class);
-
-
-
-//Middleware Admin
-Route::middleware('admin')->get('/admin', function () {
-    return view('index');
+//Rutas para la gestión de usuarios
+Route::middleware('auth')->group(function () {
+    Route::get('/users/profile', [UserController::class, 'show'])->name('users.profile'); // Mostrar perfil del usuario
+    Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit'); // Mostrar formulario de edición de perfil
+    Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update'); // Procesar actualización del perfil
 });
 
-
+// Rutas para la gestión de tratamientos
 Route::middleware([IsAdmin::class])->group(function () {
-    Route::get('treatments/create', [TreatmentController::class, 'create'])->name('treatments.create');
-    Route::post('treatments', [TreatmentController::class, 'store'])->name('treatments.store');
-    Route::get('treatments/{treatment}/edit', [TreatmentController::class, 'edit'])->name('treatments.edit');
-    Route::put('treatments/{treatment}', [TreatmentController::class, 'update'])->name('treatments.update');
-    Route::delete('treatments/{treatment}', [TreatmentController::class, 'destroy'])->name('treatments.destroy');
+    Route::get('treatments/create', [TreatmentController::class, 'create'])->name('treatments.create'); // Mostrar formulario de creación de tratamientos
+    Route::post('treatments', [TreatmentController::class, 'store'])->name('treatments.store'); // Procesar creación de tratamientos
+    Route::get('treatments/{treatment}/edit', [TreatmentController::class, 'edit'])->name('treatments.edit'); // Mostrar formulario de edición de tratamientos
+    Route::put('treatments/{treatment}', [TreatmentController::class, 'update'])->name('treatments.update'); // Procesar actualización de tratamientos
+    Route::delete('treatments/{treatment}', [TreatmentController::class, 'destroy'])->name('treatments.destroy'); // Eliminar tratamientos
 });
 
-//Ruta index para los users
-Route::get('/treatments', [TreatmentController::class, 'index'])->name('treatments.index');
+//Ruta para mostrar todos los tratamientos
+Route::get('/treatments', [TreatmentController::class, 'index'])->name('treatments.index'); // Mostrar lista de tratamientos
 
-
+//Rutas para los doctores y recepcionistas (puedes añadir las rutas específicas aquí)
 Route::middleware([IsDoctor::class])->group(function () {
-
+    //Rutas específicas para doctores
 });
-
 Route::middleware([IsReceptionist::class])->group(function () {
-
+    //Rutas específicas para recepcionistas
 });
 
-Route::resource('appointments', AppointmentController::class);
+//Ruta para la gestión de citas
+Route::resource('appointments', AppointmentController::class); // Rutas RESTful para citas
 
-//Página de Contacto (Donde Estamos) temporal
-Route::view('/contact', 'contact.index')->name('contact');
+//Ruta para generar PDF
+Route::get('/generate-document/{appointmentId}', [DocumentController::class, 'generateAppointmentDocument'])->name('generate.document'); // Generar documentos PDF
 
-//RUTA PARA GENERAR PDF
-Route::get('/generate-document/{appointmentId}', [DocumentController::class, 'generateAppointmentDocument'])->name('generate.document');
-
-
-Route::get('/teams', [TeamController::class, 'index'])->name('teams.index');
+//Página de equipo
+Route::get('/teams', [TeamController::class, 'index'])->name('teams.index'); // Mostrar el equipo
