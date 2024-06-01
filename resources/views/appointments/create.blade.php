@@ -61,16 +61,16 @@
     }
 
     /* Estilos para los botones */
-    .specialist-btn {
+    .treatment-btn {
         margin: 0 5px;
         background-color: #2196F3; /* Color azul inicial */
         color: white; /* Texto blanco */
         transition: background-color 0.3s;
     }
-    .specialist-btn:hover {
+    .treatment-btn:hover {
         background-color: #1976D2; /* Color azul oscuro al pasar el mouse */
     }
-    .specialist-btn.selected {
+    .treatment-btn.selected {
         background-color: #4CAF50 !important; /* Color verde cuando está seleccionado */
         color: white !important;
     }
@@ -82,15 +82,15 @@
         <div>{{ session('success') }}</div>
     @endif
 
-    <!-- DE BOTONES PARA ELEGIR ESPECIALISTA (CON DESPLEGABLE DABA PROBLEMAS) -->
+    <!-- BOTONES PARA ELEGIR TRATAMIENTO -->
     <div class="row">
         <div class="input-field col s12">
-            <label for="specialist">Elige el especialista</label>
+            <label for="treatment">Elige el tratamiento</label>
         </div>
         <div class="input-field col s12 center-align">
-            <button class=" btn specialist-btn" data-specialist="orthodontist">Ortodoncista</button>
-            <button class=" btn specialist-btn" data-specialist="dentist">Odontólogo</button>
-            <button class=" btn specialist-btn" data-specialist="hygienist">Higienista</button>
+            @foreach($treatments as $treatment)
+                <button class="btn treatment-btn" data-treatment-id="{{ $treatment->id }}">{{ $treatment->title }}</button>
+            @endforeach
         </div>
     </div>
 
@@ -102,7 +102,7 @@
                 @csrf
                 <input type="hidden" name="date" id="appointmentDate">
                 <input type="hidden" name="time" id="appointmentTime">
-                <input type="hidden" name="specialist" id="appointmentSpecialist">
+                <input type="hidden" name="treatment_id" id="appointmentTreatmentId">
                 <label for="time">Selecciona la hora:</label>
                 <div class="time-slots"></div>
                 <div>
@@ -114,11 +114,11 @@
                     <input type="text" name="telephone" id="telephone" value="{{ Auth::user()->telephone }}" readonly>
                 </div>
                 <div>
-                    <label for="comentario">Comentario:</label>
-                    <textarea name="comentario" id="comentario"></textarea>
+                    <label for="observations">observations:</label>
+                    <textarea name="observations" id="observations"></textarea>
                 </div>
                 <button type="submit" id="bookAppointmentBtn" disabled>Confirmar Cita</button>
-                <button type="button" onclick="document.getElementById('bookingModal').style.display='none'">Cancel</button>
+                <button type="button" onclick="document.getElementById('bookingModal').style.display='none'">Cancelar</button>
             </form>
         </div>
     @endif
@@ -127,14 +127,14 @@
 <script>
     $(document).ready(function() {
         var appointments = @json($appointments);
-        var currentSpecialist = null;
+        var currentTreatmentId = null;
 
-        function renderCalendar(specialist = null) {
-            var filteredAppointments = specialist 
-                ? appointments.filter(function(app) { return app.specialist === specialist; })
+        function renderCalendar(treatmentId = null) {
+            var filteredAppointments = treatmentId 
+                ? appointments.filter(function(app) { return app.treatment_id === treatmentId; })
                 : [];
 
-            $('#calendar').fullCalendar('destroy'); //Destruye la instancia actual del calendario
+            $('#calendar').fullCalendar('destroy'); //Destruye la instancia del calendario
 
             $('#calendar').fullCalendar({
                 locale: 'es',
@@ -146,8 +146,8 @@
                     };
                 }),
                 dayClick: function(date, jsEvent, view) {
-                    if (!currentSpecialist) {
-                        alert("Por favor, seleccione un especialista");
+                    if (!currentTreatmentId) {
+                        alert("Por favor, seleccione un tratamiento");
                         return;
                     }
 
@@ -186,7 +186,7 @@
                     });
 
                     $('#appointmentDate').val(selectedDate);
-                    $('#appointmentSpecialist').val(currentSpecialist); //Hace set del especialista seleccionado
+                    $('#appointmentTreatmentId').val(currentTreatmentId); //Hace un set del tratamiento seleccionado
                     $('.time-slots').html(timeSlotsHtml);
                     $('#bookingModal').show();
 
@@ -219,20 +219,20 @@
             $('#bookingModal').hide();
         });
 
-        $('.specialist-btn').click(function() {
-            var selectedSpecialist = $(this).data('specialist');
+        $('.treatment-btn').click(function() {
+            var selectedTreatmentId = $(this).data('treatment-id');
 
-            if (currentSpecialist === selectedSpecialist) {
-                //Si el mismo especialista está seleccionado, oculta las citas
-                currentSpecialist = null;
-                $('.specialist-btn').removeClass('selected'); //Quita la clase 'selected' de todos los botones
+            if (currentTreatmentId === selectedTreatmentId) {
+                //Si el mismo tratamiento está seleccionado, oculta las citas
+                currentTreatmentId = null;
+                $('.treatment-btn').removeClass('selected');
                 renderCalendar();
             } else {
-                //Muestra las citas del especialista seleccionado
-                currentSpecialist = selectedSpecialist;
-                $('.specialist-btn').removeClass('selected'); //Quita la clase 'selected' de todos los botones
-                $(this).addClass('selected'); //Agrega la clase 'selected' al botón seleccionado
-                renderCalendar(selectedSpecialist);
+                //Muestra las citas del tratamiento seleccionado
+                currentTreatmentId = selectedTreatmentId;
+                $('.treatment-btn').removeClass('selected');
+                $(this).addClass('selected');
+                renderCalendar(selectedTreatmentId);
             }
         });
 

@@ -55,11 +55,11 @@
                             </select>
                         </div>
                         <div class="mb-3" id="specialty_field" style="display: none;">
-                            <label for="specialty" class="form-label">Especialidad</label>
-                            <select class="form-control" name="specialty" id="specialty">
-                                <option value="hygienist">Higienista</option>
-                                <option value="dentist">Dentista</option>
-                                <option value="orthodontist">Ortodoncista</option>
+                            <label for="specialties" class="form-label">Especialidades</label>
+                            <select class="form-control" name="specialties[]" id="specialties" multiple>
+                                @foreach($specialties as $specialty)
+                                    <option value="{{ $specialty->id }}">{{ $specialty->name }}</option>
+                                @endforeach
                             </select>
                         </div>
                     @else

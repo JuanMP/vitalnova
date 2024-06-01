@@ -3,23 +3,32 @@
 namespace App\Http\Controllers;
 
 use App\Models\Treatment;
-use App\Models\User;
+use App\Models\Specialty;
 use Illuminate\Http\Request;
 
 class TreatmentController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        $treatments = Treatment::with('doctor')->get();
+        $treatments = Treatment::with('specialty')->get();
         return view('treatments.index', compact('treatments'));
     }
 
+    /**
+     * Show the form for creating a new resource.
+     */
     public function create()
     {
-        $doctors = User::where('rol', 'doctor')->get();
-        return view('treatments.create', compact('doctors'));
+        $specialties = Specialty::all();
+        return view('treatments.create', compact('specialties'));
     }
 
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
         $request->validate([
@@ -27,14 +36,14 @@ class TreatmentController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'description' => 'required|string',
             'cost' => 'required|numeric',
-            'doctor_id' => 'required|exists:users,id',
+            'specialty_id' => 'required|exists:specialties,id',
         ]);
 
         $treatment = new Treatment();
         $treatment->title = $request->get('title');
         $treatment->description = $request->get('description');
         $treatment->cost = $request->get('cost');
-        $treatment->doctor_id = $request->get('doctor_id');
+        $treatment->specialty_id = $request->get('specialty_id');
 
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('public/treatments');
@@ -48,12 +57,18 @@ class TreatmentController extends Controller
         return redirect()->route('treatments.index')->with('success', 'Tratamiento añadido con éxito');
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     */
     public function edit(Treatment $treatment)
     {
-        $doctors = User::where('rol', 'doctor')->get();
-        return view('treatments.edit', compact('treatment', 'doctors'));
+        $specialties = Specialty::all();
+        return view('treatments.edit', compact('treatment', 'specialties'));
     }
 
+    /**
+     * Update the specified resource in storage.
+     */
     public function update(Request $request, Treatment $treatment)
     {
         $request->validate([
@@ -61,13 +76,13 @@ class TreatmentController extends Controller
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             'description' => 'required|string',
             'cost' => 'required|numeric',
-            'doctor_id' => 'required|exists:users,id',
+            'specialty_id' => 'required|exists:specialties,id',
         ]);
 
         $treatment->title = $request->get('title');
         $treatment->description = $request->get('description');
         $treatment->cost = $request->get('cost');
-        $treatment->doctor_id = $request->get('doctor_id');
+        $treatment->specialty_id = $request->get('specialty_id');
 
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('public/treatments');
@@ -79,6 +94,9 @@ class TreatmentController extends Controller
         return redirect()->route('treatments.index')->with('success', 'Tratamiento actualizado con éxito');
     }
 
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy(Treatment $treatment)
     {
         $treatment->delete();

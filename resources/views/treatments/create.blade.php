@@ -20,7 +20,7 @@
         @csrf
         <div class="row">
             <div class="input-field col s12">
-                <input type="text" name="title" id="title" value="{{ old('title') }}" required>
+                <input type="text" name="title" id="title" value="{{ old('title') }}">
                 <label for="title">Nombre del Tratamiento</label>
             </div>
         </div>
@@ -28,6 +28,23 @@
             <div class="input-field col s12">
                 <textarea name="description" id="description" class="materialize-textarea" required>{{ old('description') }}</textarea>
                 <label for="description">Descripción</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <input type="number" name="cost" id="cost" value="{{ old('cost') }}">
+                <label for="cost">Costo</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <select name="specialty_id" id="specialty_id" required>
+                    <option value="" disabled selected>Selecciona una especialidad</option>
+                    @foreach($specialties as $specialty)
+                        <option value="{{ $specialty->id }}">{{ $specialty->name }}</option>
+                    @endforeach
+                </select>
+                <label for="specialty_id">Especialidad</label>
             </div>
         </div>
         <div class="row">
@@ -39,23 +56,6 @@
                 <div class="file-path-wrapper">
                     <input class="file-path validate" type="text">
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="input-field col s12">
-                <input type="number" name="cost" id="cost" value="{{ old('cost') }}" step="0.01" required>
-                <label for="cost">Costo</label>
-            </div>
-        </div>
-        <div class="row">
-            <div class="input-field col s12">
-                <select name="doctor_id" id="doctor_id" required>
-                    <option value="" disabled selected>Seleccionar Doctor</option>
-                    @foreach($doctors as $doctor)
-                        <option value="{{ $doctor->id }}">{{ $doctor->name }} - {{ $doctor->specialty }}</option>
-                    @endforeach
-                </select>
-                <label for="doctor_id">Doctor Responsable</label>
             </div>
         </div>
         <button type="submit" class="btn waves-effect waves-light">Guardar Tratamiento</button>

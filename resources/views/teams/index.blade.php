@@ -31,10 +31,11 @@
                             <img src="{{ $doctor->image }}" alt="Doctor">
                             <span class="card-title">{{ $doctor->name }}</span>
                         </div>
-                        <div class="card-content">
-                            <p>Especialidad: {{ $doctor->specialty }}</p>
-                            <p>{{ $doctor->description }}</p>
-                        </div>
+                        <ul>
+                                @foreach($doctor->specialties as $specialty)
+                                    <li>{{ $specialty->name }}</li>
+                                @endforeach
+                            </ul>
                     </div>
                 </div>
             @endforeach

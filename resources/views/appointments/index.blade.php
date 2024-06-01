@@ -23,10 +23,10 @@
                     <div class="col s12 m6">
                         <div class="card">
                             <div class="card-content">
-                                <h5><strong>Cita con {{ $appointment->specialist }}</strong></h5>
+                                <h5><strong>Cita con {{ $appointment->doctor->name }}</strong></h5>
                                 <span class="card-title"><strong>Fecha:</strong> {{ $appointment->date }}</span>
                                 <p><strong>Hora:</strong> {{ $appointment->time }}</p>
-                                <p><strong>Observaciones:</strong> {{ $appointment->comentario }}</p>
+                                <p><strong>Observaciones:</strong> {{ $appointment->observations }}</p>
                             </div>
                             <div class="card-action">
                                 <form action="{{ route('appointments.destroy', $appointment->id) }}" method="POST">
@@ -43,33 +43,30 @@
     @else
         <h2>Todas las Citas</h2>
         @if($appointments->isEmpty())
-            <p>No hay citas programadas.</p>
-        @else
-            <table class="striped">
-                <thead>
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Hora</th>
-                        <th>Especialista</th>
-                        <th>Email</th>
-                        <th>Teléfono</th>
-                        <th>Comentario</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($appointments as $appointment)
-                        <tr>
-                            <td>{{ $appointment->date }}</td>
-                            <td>{{ $appointment->time }}</td>
-                            <td>{{ ucfirst($appointment->specialist) }}</td>
-                            <td>{{ $appointment->email }}</td>
-                            <td>{{ $appointment->telephone }}</td>
-                            <td>{{ $appointment->comentario }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        @endif
+        <p>No tienes citas programadas.</p>
+    @else
+        <div class="row">
+            @foreach($appointments as $appointment)
+                <div class="col s12 m6">
+                    <div class="card">
+                        <div class="card-content">
+                            <h5><strong>Cita para {{ $appointment->treatment->title }}</strong></h5>
+                            <span class="card-title"><strong>Fecha:</strong> {{ $appointment->date }}</span>
+                            <p><strong>Hora:</strong> {{ $appointment->time }}</p>
+                            <p><strong>Email:</strong> {{ $appointment->email }}</p>
+                            <p><strong>Teléfono:</strong> {{ $appointment->telephone }}</p>
+                            @if (Auth::user()->isDoctor())
+                                <p><strong>Paciente:</strong> {{ $appointment->user->name }}</p>
+                            @else
+                                <p><strong>Doctor:</strong> {{ $appointment->doctor->name }}</p>
+                            @endif
+                            <p><strong>observations:</strong> {{ $appointment->observations }}</p>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    @endif
     @endif
 </div>
 @endsection

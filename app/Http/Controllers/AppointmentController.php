@@ -2,64 +2,108 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Appointment;
+use App\Models\User;
+use App\Models\Treatment;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AppointmentController extends Controller
 {
-
     public function index()
-{
-    if (Auth::user()->hasRol('user')) {
-        $appointments = Appointment::where('user_id', Auth::id())->get();
-    } else {
-        $appointments = Appointment::all();
-    }
+    {
+        if (Auth::user()->isDoctor()) {
+            $appointments = Appointment::where('doctor_id', Auth::id())->with('user', 'treatment')->get();
+        } else {
+            $appointments = Appointment::where('user_id', Auth::id())->with('doctor', 'treatment')->get();
+        }
 
-    return view('appointments.index', compact('appointments'));
-}
+        return view('appointments.index', compact('appointments'));
+    }
 
     public function create()
     {
+        $treatments = Treatment::all();
         $appointments = Appointment::all();
-        return view('appointments.create', compact('appointments'));
+        return view('appointments.create', compact('treatments', 'appointments'));
     }
 
     public function store(Request $request)
     {
-        //Valida los datos del formulario
         $request->validate([
             'date' => 'required|date',
-            'time' => 'required',
+            'time' => 'required|date_format:H:i',
             'email' => 'required|email',
-            'telephone' => 'required',
-            'specialist' => 'required',
+            'telephone' => 'required|string|max:15',
+            'observations' => 'nullable|string',
+            'treatment_id' => 'required|exists:treatments,id',
         ]);
 
-        //Crea una nueva instancia de Appointment y asigna los valores del formulario
+        $treatment = Treatment::findOrFail($request->treatment_id);
+
+        //Encuentra doctores con la especialidad del tratamiento
+        $doctors = User::whereHas('specialties', function ($query) use ($treatment) {
+            $query->where('specialty_id', $treatment->specialty_id);
+        })->withCount('appointments')->get();
+
+        //Encientra el doctor con menos citas
+        $doctor = $doctors->sortBy('appointments_count')->first();
+
+        //Si hay varios doctores con el mismo número de citas, seleccionar uno al azar
+        $minAppointmentsCount = $doctor->appointments_count;
+        $leastBusyDoctors = $doctors->filter(function ($doctor) use ($minAppointmentsCount) {
+            return $doctor->appointments_count == $minAppointmentsCount;
+        });
+
+        if ($leastBusyDoctors->count() > 1) {
+            $doctor = $leastBusyDoctors->random();
+        }
+
         $appointment = new Appointment();
-        $appointment->user_id = Auth::id(); //Obtiene el ID del usuario autenticado
-        $appointment->date = $request->input('date');
-        $appointment->time = $request->input('time');
-        $appointment->email = $request->input('email');
-        $appointment->telephone = $request->input('telephone');
-        $appointment->comentario = $request->input('comentario');
-        $appointment->specialist = $request->input('specialist');
-        
-        //Guarda la cita en la base de datos
+        $appointment->date = $request->get('date');
+        $appointment->time = $request->get('time');
+        $appointment->email = $request->get('email');
+        $appointment->telephone = $request->get('telephone');
+        $appointment->observations = $request->get('observations');
+        $appointment->user_id = Auth::id();
+        $appointment->treatment_id = $request->get('treatment_id');
+        $appointment->doctor_id = $doctor->id;
         $appointment->save();
 
-        //Redirige al usuario con un mensaje de éxito
-        return redirect()->route('appointments.index')->with('success', 'Cita creada con éxito!');
+        return redirect()->route('appointments.index')->with('success', 'Cita creada con éxito');
     }
 
-    //Función para eliminar cita
-    public function destroy($id)
+    public function edit(Appointment $appointment)
     {
-        $appointment = Appointment::findOrFail($id);
-        $appointment->delete();
+        $treatments = Treatment::all();
+        return view('appointments.edit', compact('appointment', 'treatments'));
+    }
 
-        return redirect()->route('appointments.index')->with('success', 'La cita se ha eliminado satisfactoriamente');
+    public function update(Request $request, Appointment $appointment)
+    {
+        $request->validate([
+            'date' => 'required|date',
+            'time' => 'required|date_format:H:i',
+            'email' => 'required|email',
+            'telephone' => 'required|string|max:15',
+            'observations' => 'nullable|string',
+            'treatment_id' => 'required|exists:treatments,id',
+        ]);
+
+        $appointment->date = $request->get('date');
+        $appointment->time = $request->get('time');
+        $appointment->email = $request->get('email');
+        $appointment->telephone = $request->get('telephone');
+        $appointment->observations = $request->get('observations');
+        $appointment->treatment_id = $request->get('treatment_id');
+        $appointment->save();
+
+        return redirect()->route('appointments.index')->with('success', 'Cita actualizada con éxito');
+    }
+
+    public function destroy(Appointment $appointment)
+    {
+        $appointment->delete();
+        return redirect()->route('appointments.index')->with('success', 'Cita eliminada con éxito');
     }
 }

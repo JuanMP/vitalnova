@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -24,9 +23,9 @@ class User extends Authenticatable
         'dni',
         'telephone',
         'birthday',
-        'rol',
-        'specialty',
         'image',
+        'rol',
+  
     ];
 
     /**
@@ -71,6 +70,16 @@ class User extends Authenticatable
     public function hasRol($rol)
     {
         return $this->rol === $rol;
+    }
+
+    public function specialties()
+    {
+        return $this->belongsToMany(Specialty::class);
+    }
+
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class, 'doctor_id');
     }
 
 }
