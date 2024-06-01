@@ -40,7 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update'); // Procesar actualización del perfil
 });
 
-// Rutas para la gestión de tratamientos
+//Rutas para la gestión de tratamientos
 Route::middleware([IsAdmin::class])->group(function () {
     Route::get('treatments/create', [TreatmentController::class, 'create'])->name('treatments.create'); // Mostrar formulario de creación de tratamientos
     Route::post('treatments', [TreatmentController::class, 'store'])->name('treatments.store'); // Procesar creación de tratamientos
@@ -68,3 +68,7 @@ Route::get('/generate-document/{appointmentId}', [DocumentController::class, 'ge
 
 //Página de equipo
 Route::get('/teams', [TeamController::class, 'index'])->name('teams.index'); // Mostrar el equipo
+
+Route::get('/contact', function () {
+    return view('contact.index');
+})->name('contact')->middleware('notAdmin');

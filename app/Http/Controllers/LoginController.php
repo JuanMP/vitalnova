@@ -16,9 +16,11 @@ class LoginController extends Controller
         return view('auth.signup');
     }
 
-    //Registro de usuarios
+    //Registrar un nuevo usuario
     public function signup(SignupRequest $request)
     {
+        $currentUser = Auth::user(); //Guarda el usuario actual (puede ser admin o null)
+
         $user = new User();
         $user->name = $request->get('name');
         $user->email = $request->get('email');
@@ -26,16 +28,10 @@ class LoginController extends Controller
         $user->birthday = $request->get('birthday');
         $user->telephone = $request->get('telephone');
         $user->password = Hash::make($request->get('password'));
-
-        if (auth()->check() && auth()->user()->isAdmin()) {
-            $user->rol = $request->get('rol');
-            $user->specialty = $request->get('specialty');
-        } else {
-            $user->rol = 'user';
-        }
+        $user->rol = $request->get('rol', 'user'); //Obtiene el rol del formulario, por defecto user
 
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('public/users');
+            $imagePath = $request->file('image')->store('public/profile_images');
             $user->image = str_replace('public/', '/storage/', $imagePath);
         } else {
             $user->image = '/img/others/user.jpg';
@@ -43,12 +39,18 @@ class LoginController extends Controller
 
         $user->save();
 
-        Auth::login($user);
+        //Si un admin está creando el usuario, restaura la sesión del admin
+        if ($currentUser && $currentUser->rol == 'admin') {
+            Auth::login($currentUser); //Restaura la sesión del administrador
+            return redirect()->route('teams.index')->with('success', 'Usuario creado con éxito');
+        }
 
-        return redirect()->route('users.profile');
+        //Si es un registro normal, inicia sesión con el nuevo usuario
+        Auth::login($user);
+        return redirect()->route('users.profile')->with('success', 'Registro exitoso');
     }
 
-    //Inicio de sesión
+    //Login para loguearse
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
@@ -62,7 +64,7 @@ class LoginController extends Controller
         }
     }
 
-    // Muestra el formulario de login
+    //Muestra el formulario de login
     public function loginForm()
     {
         if (Auth::viaRemember()) {
@@ -74,7 +76,7 @@ class LoginController extends Controller
         }
     }
 
-    //Cierra la sesión del usuario
+    //Logout para cerrar sesión
     public function logout(Request $request)
     {
         Auth::guard('web')->logout();
