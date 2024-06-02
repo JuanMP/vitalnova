@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Treatment;
 use App\Models\Specialty;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class TreatmentController extends Controller
@@ -13,7 +14,13 @@ class TreatmentController extends Controller
      */
     public function index()
     {
-        $treatments = Treatment::with('specialty')->get();
+        if (Auth::check() && Auth::user()->isDoctor()) { 
+            $specialtyIds = Auth::user()->specialties->pluck('id');
+            $treatments = Treatment::whereIn('specialty_id', $specialtyIds)->get();
+        } else {
+            $treatments = Treatment::all();
+        }
+
         return view('treatments.index', compact('treatments'));
     }
 

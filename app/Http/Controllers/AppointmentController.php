@@ -14,6 +14,8 @@ class AppointmentController extends Controller
     {
         if (Auth::user()->isDoctor()) {
             $appointments = Appointment::where('doctor_id', Auth::id())->with('user', 'treatment')->get();
+        } else if (Auth::user()->rol === 'receptionist') {
+            $appointments = Appointment::with('user', 'treatment', 'doctor')->get();
         } else {
             $appointments = Appointment::where('user_id', Auth::id())->with('doctor', 'treatment')->get();
         }
@@ -21,11 +23,12 @@ class AppointmentController extends Controller
         return view('appointments.index', compact('appointments'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
         $treatments = Treatment::all();
-        $appointments = Appointment::all();
-        return view('appointments.create', compact('treatments', 'appointments'));
+        $user_id = $request->get('user_id');
+        $appointments = Appointment::all(); // Añadido para pasar las citas a la vista
+        return view('appointments.create', compact('treatments', 'user_id', 'appointments'));
     }
 
     public function store(Request $request)
@@ -37,6 +40,7 @@ class AppointmentController extends Controller
             'telephone' => 'required|string|max:15',
             'observations' => 'nullable|string',
             'treatment_id' => 'required|exists:treatments,id',
+            'user_id' => 'required|exists:users,id'
         ]);
 
         $treatment = Treatment::findOrFail($request->treatment_id);
@@ -65,7 +69,7 @@ class AppointmentController extends Controller
         $appointment->email = $request->get('email');
         $appointment->telephone = $request->get('telephone');
         $appointment->observations = $request->get('observations');
-        $appointment->user_id = Auth::id();
+        $appointment->user_id = $request->input('user_id');
         $appointment->treatment_id = $request->get('treatment_id');
         $appointment->doctor_id = $doctor->id;
         $appointment->save();

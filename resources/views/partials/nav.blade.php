@@ -6,9 +6,16 @@
         <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         <ul class="left hide-on-med-and-down">
             <li class="{{ request()->routeIs('index') ? 'active' : '' }}"><a href="{{ route('index') }}">Inicio</a></li>
-            <li class="{{ request()->routeIs('treatments.index') ? 'active' : '' }}"><a href="{{ route('treatments.index') }}">Tratamientos</a></li>
+            <li class="{{ request()->routeIs('treatments.index') ? 'active' : '' }}">
+                <a href="{{ route('treatments.index') }}">
+                    {{ auth()->check() && auth()->user()->isDoctor() ? 'Mis Tratamientos' : 'Tratamientos' }}
+                </a>
+            </li>
+            @if (auth()->check() && auth()->user()->rol === 'receptionist')
+                <li class="{{ request()->routeIs('users.list') ? 'active' : '' }}"><a href="{{ route('users.list') }}">Pacientes</a></li>
+            @endif
             <li class="{{ request()->routeIs('teams.index') ? 'active' : '' }}"><a href="{{ route('teams.index') }}">Equipo</a></li>
-            @if (!auth()->check() || !auth()->user()->isAdmin())
+            @if (!auth()->check() || (auth()->check() && !auth()->user()->isAdmin()))
                 <li class="{{ request()->routeIs('contact') ? 'active' : '' }}"><a href="{{ route('contact') }}">Donde Estamos</a></li>
             @endif
         </ul>

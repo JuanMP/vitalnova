@@ -42,7 +42,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
 
-
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 

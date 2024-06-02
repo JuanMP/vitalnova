@@ -40,6 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update'); //Procesa actualización del perfil
 });
 
+
 //Rutas para la gestión de tratamientos
 Route::middleware([IsAdmin::class])->group(function () {
     Route::get('treatments/create', [TreatmentController::class, 'create'])->name('treatments.create'); //Muestra formulario de creación de tratamientos
@@ -56,8 +57,10 @@ Route::get('/treatments', [TreatmentController::class, 'index'])->name('treatmen
 Route::middleware([IsDoctor::class])->group(function () {
     //Rutas específicas para doctores
 });
+
+//Rutas para la página de Pacientes (solo para la recepcionista)
 Route::middleware([IsReceptionist::class])->group(function () {
-    //Rutas específicas para recepcionistas
+    Route::get('/patients', [UserController::class, 'list'])->name('users.list');
 });
 
 //Ruta para la gestión de citas

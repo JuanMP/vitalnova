@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 class IsReceptionist
 {
     /**
@@ -16,13 +16,10 @@ class IsReceptionist
      */
     public function handle(Request $request, Closure $next)
     {
-        //Verifica si el usuario actual está autenticado y es un administrador
-        if (auth()->check() && auth()->user()->isReceptionist()) {
+        if (Auth::check() && Auth::user()->rol === 'receptionist') {
             return $next($request);
         }
 
-        //Si el usuario no es un administrador, puedes redirigirlo a alguna página o mostrar un mensaje de error.
-        //En este caso, se está redirigiendo a la página anterior.
-        return redirect()->back()->with('error', 'Acceso no autorizado.');
+        return redirect('/')->with('error', 'No tienes permiso para acceder a esta página.');
     }
 }

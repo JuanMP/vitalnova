@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', 'Citas')
+@section('title', 'Crear Cita')
 
 @section('content')
 
@@ -96,32 +96,32 @@
 
     <div id='calendar'></div>
 
-    @if(Auth::check())
-        <div id="bookingModal">
-            <form action="{{ route('appointments.store') }}" method="POST">
-                @csrf
-                <input type="hidden" name="date" id="appointmentDate">
-                <input type="hidden" name="time" id="appointmentTime">
-                <input type="hidden" name="treatment_id" id="appointmentTreatmentId">
-                <label for="time">Selecciona la hora:</label>
-                <div class="time-slots"></div>
-                <div>
-                    <label for="email">Email:</label>
-                    <input type="email" name="email" id="email" value="{{ Auth::user()->email }}" readonly>
-                </div>
-                <div>
-                    <label for="telephone">Telephone:</label>
-                    <input type="text" name="telephone" id="telephone" value="{{ Auth::user()->telephone }}" readonly>
-                </div>
-                <div>
-                    <label for="observations">observations:</label>
-                    <textarea name="observations" id="observations"></textarea>
-                </div>
-                <button type="submit" id="bookAppointmentBtn" disabled>Confirmar Cita</button>
-                <button type="button" onclick="document.getElementById('bookingModal').style.display='none'">Cancelar</button>
-            </form>
-        </div>
-    @endif
+    <div id="bookingModal">
+        <form action="{{ route('appointments.store') }}" method="POST">
+            @csrf
+            <input type="hidden" name="date" id="appointmentDate">
+            <input type="hidden" name="time" id="appointmentTime">
+            <input type="hidden" name="treatment_id" id="appointmentTreatmentId">
+            <input type="hidden" name="user_id" value="{{ request()->get('user_id', Auth::id()) }}">
+
+            <label for="time">Selecciona la hora:</label>
+            <div class="time-slots"></div>
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" name="email" id="email" value="{{ Auth::user()->email }}" readonly>
+            </div>
+            <div>
+                <label for="telephone">Telephone:</label>
+                <input type="text" name="telephone" id="telephone" value="{{ Auth::user()->telephone }}" readonly>
+            </div>
+            <div>
+                <label for="observations">observations:</label>
+                <textarea name="observations" id="observations"></textarea>
+            </div>
+            <button type="submit" id="bookAppointmentBtn" disabled>Confirmar Cita</button>
+            <button type="button" onclick="document.getElementById('bookingModal').style.display='none'">Cancelar</button>
+        </form>
+    </div>
 </div>
 
 <script>
@@ -138,16 +138,24 @@
 
             $('#calendar').fullCalendar({
                 locale: 'es',
-                events: filteredAppointments.map(function(app) {
-                    return {
-                        title: app.email,
-                        start: app.date + 'T' + app.time,
-                        color: 'red'
-                    };
-                }),
+                events: function(start, end, timezone, callback) {
+                    var events = [];
+                    @if(Auth::user()->rol !== 'user')
+                        events = filteredAppointments.map(function(app) {
+                            return {
+                                title: app.email,
+                                start: app.date + 'T' + app.time,
+                                color: 'red',
+                                
+                            };
+                        });
+                    @endif
+                    callback(events);
+                },
                 dayClick: function(date, jsEvent, view) {
                     if (!currentTreatmentId) {
-                        alert("Por favor, seleccione un tratamiento");
+                        swal("Upss...", "Por favor, seleccione un tratamiento", "error");
+                      
                         return;
                     }
 
@@ -155,12 +163,14 @@
                     var selectedDate = date.startOf('day');
 
                     if (date.day() === 0) {
-                        alert("Lo siento, no se pueden reservar citas los domingos");
+                        swal("ohh...", "Lo siento, no se pueden reservar citas los domingos", "error");
+                     
                         return;
                     }
 
                     if (selectedDate.isBefore(today)) {
-                        alert("Lo siento, no se pueden reservar citas en días anteriores");
+                        swal("ohh...", "Lo siento, no se pueden reservar citas en días anteriores", "error");
+                       
                         return;
                     }
 
@@ -215,8 +225,10 @@
         $('#bookingModal form').submit(function(event) {
             event.preventDefault();
             this.submit();
-            alert("Cita creada con éxito!");
-            $('#bookingModal').hide();
+            swal("Ya tienes tu cita!!", "Cita creada con éxito!", "success")
+            .then((value) => {
+                $('#bookingModal').hide();
+            });
         });
 
         $('.treatment-btn').click(function() {

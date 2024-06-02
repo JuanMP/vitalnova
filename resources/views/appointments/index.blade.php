@@ -40,33 +40,82 @@
                 @endforeach
             </div>
         @endif
+    @elseif(Auth::user()->hasRol('receptionist'))
+        <div id="calendar"></div>
     @else
         <h2>Todas las Citas</h2>
         @if($appointments->isEmpty())
-        <p>No tienes citas programadas.</p>
-    @else
-        <div class="row">
-            @foreach($appointments as $appointment)
-                <div class="col s12 m6">
-                    <div class="card">
-                        <div class="card-content">
-                            <h5><strong>Cita para {{ $appointment->treatment->title }}</strong></h5>
-                            <span class="card-title"><strong>Fecha:</strong> {{ $appointment->date }}</span>
-                            <p><strong>Hora:</strong> {{ $appointment->time }}</p>
-                            <p><strong>Email:</strong> {{ $appointment->email }}</p>
-                            <p><strong>Teléfono:</strong> {{ $appointment->telephone }}</p>
-                            @if (Auth::user()->isDoctor())
-                                <p><strong>Paciente:</strong> {{ $appointment->user->name }}</p>
-                            @else
-                                <p><strong>Doctor:</strong> {{ $appointment->doctor->name }}</p>
-                            @endif
-                            <p><strong>observations:</strong> {{ $appointment->observations }}</p>
+            <p>No tienes citas programadas.</p>
+        @else
+            <div class="row">
+                @foreach($appointments as $appointment)
+                    <div class="col s12 m6">
+                        <div class="card">
+                            <div class="card-content">
+                                <h5><strong>Cita para {{ $appointment->treatment->title }}</strong></h5>
+                                <span class="card-title"><strong>Fecha:</strong> {{ $appointment->date }}</span>
+                                <p><strong>Hora:</strong> {{ $appointment->time }}</p>
+                                <p><strong>Email:</strong> {{ $appointment->email }}</p>
+                                <p><strong>Teléfono:</strong> {{ $appointment->telephone }}</p>
+                                @if (Auth::user()->isDoctor())
+                                    <p><strong>Paciente:</strong> {{ $appointment->user->name }}</p>
+                                @else
+                                    <p><strong>Doctor:</strong> {{ $appointment->doctor->name }}</p>
+                                @endif
+                                <p><strong>Observaciones:</strong> {{ $appointment->observations }}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-            @endforeach
-        </div>
-    @endif
+                @endforeach
+            </div>
+        @endif
     @endif
 </div>
+
+@if(Auth::user()->hasRol('receptionist'))
+<script>
+    $(document).ready(function() {
+        var appointments = @json($appointments);
+
+        function renderCalendar() {
+            $('#calendar').fullCalendar('destroy'); // Destruye la instancia del calendario
+
+            $('#calendar').fullCalendar({
+                locale: 'es',
+                events: appointments.map(function(app) {
+                    return {
+                        title: app.user.name,
+                        start: app.date + 'T' + app.time,
+                        color: 'red',
+                        extendedProps: {
+                            email: app.user.email,
+                            telephone: app.user.telephone,
+                            observations: app.observations,
+                            doctor: app.doctor.name,
+                            treatment: app.treatment.title
+                        }
+                    };
+                }),
+                eventClick: function(event, jsEvent, view) {
+                    if (event.extendedProps) {
+                        console.log(event)
+                        html=`
+                               Tratamiento:${event.extendedProps.treatment}
+                                Doctor:${event.extendedProps.doctor}
+                                Email:${event.extendedProps.email}
+                                Teléfono:${event.extendedProps.telephone}
+                                Observaciones:${event.extendedProps.observations}
+                            `
+                            swal("Detalle de la cita", html, "info");
+                    }
+                }
+            });
+        }
+
+        //Renderiza el calendario
+        renderCalendar();
+    });
+</script>
+@endif
+
 @endsection
