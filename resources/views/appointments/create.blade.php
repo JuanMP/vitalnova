@@ -138,24 +138,16 @@
 
             $('#calendar').fullCalendar({
                 locale: 'es',
-                events: function(start, end, timezone, callback) {
-                    var events = [];
-                    @if(Auth::user()->rol !== 'user')
-                        events = filteredAppointments.map(function(app) {
-                            return {
-                                title: app.email,
-                                start: app.date + 'T' + app.time,
-                                color: 'red',
-                                
-                            };
-                        });
-                    @endif
-                    callback(events);
-                },
+                events: filteredAppointments.map(function(app) {
+                    return {
+                        title: app.time,
+                        start: app.date + 'T' + app.time,
+                        color: 'red',
+                    };
+                }),
                 dayClick: function(date, jsEvent, view) {
                     if (!currentTreatmentId) {
                         swal("Upss...", "Por favor, seleccione un tratamiento", "error");
-                      
                         return;
                     }
 
@@ -164,13 +156,11 @@
 
                     if (date.day() === 0) {
                         swal("ohh...", "Lo siento, no se pueden reservar citas los domingos", "error");
-                     
                         return;
                     }
 
                     if (selectedDate.isBefore(today)) {
                         swal("ohh...", "Lo siento, no se pueden reservar citas en días anteriores", "error");
-                       
                         return;
                     }
 
