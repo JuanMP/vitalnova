@@ -12,17 +12,23 @@ class AppointmentController extends Controller
 {
     public function index()
     {
-        if (Auth::user()->isDoctor()) {
-            $appointments = Appointment::where('doctor_id', Auth::id())->with('user', 'treatment')->get();
-        } else if (Auth::user()->rol === 'receptionist') {
-            $appointments = Appointment::with('user', 'treatment', 'doctor')->get();
+        $user = Auth::user();
+
+        if ($user) {
+            if ($user->isDoctor()) {
+                $appointments = Appointment::where('doctor_id', $user->id)->with('user', 'treatment')->get();
+            } else if ($user->rol === 'receptionist') {
+                $appointments = Appointment::with('user', 'treatment', 'doctor')->get();
+            } else {
+                $appointments = Appointment::where('user_id', $user->id)->with('doctor', 'treatment')->get();
+            }
+
+            return view('appointments.index', compact('appointments'));
         } else {
-            $appointments = Appointment::where('user_id', Auth::id())->with('doctor', 'treatment')->get();
+            // Redirigir a la página de inicio de sesión o mostrar un error
+            return redirect()->route('login')->withErrors('Debe estar autenticado para ver las citas.');
         }
-
-        return view('appointments.index', compact('appointments'));
     }
-
     public function create(Request $request)
     {
         $treatments = Treatment::all();
@@ -80,7 +86,8 @@ class AppointmentController extends Controller
     public function edit(Appointment $appointment)
     {
         $treatments = Treatment::all();
-        return view('appointments.edit', compact('appointment', 'treatments'));
+    $appointments = Appointment::all(); // Añadir esta línea para obtener todas las citas
+    return view('appointments.edit', compact('appointment', 'treatments', 'appointments'));
     }
 
     public function update(Request $request, Appointment $appointment)

@@ -29,7 +29,8 @@
                                 <p><strong>Observaciones:</strong> {{ $appointment->observations }}</p>
                             </div>
                             <div class="card-action">
-                                <form action="{{ route('appointments.destroy', $appointment->id) }}" method="POST">
+                                <a href="{{ route('appointments.edit', $appointment->id) }}" class="btn blue waves-effect waves-light">Editar</a>
+                                <form action="{{ route('appointments.destroy', $appointment->id) }}" method="POST" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn red waves-effect waves-light">Eliminar</button>
@@ -78,7 +79,7 @@
         var appointments = @json($appointments);
 
         function renderCalendar() {
-            $('#calendar').fullCalendar('destroy'); // Destruye la instancia del calendario
+            $('#calendar').fullCalendar('destroy');
 
             $('#calendar').fullCalendar({
                 locale: 'es',
