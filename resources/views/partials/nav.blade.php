@@ -18,6 +18,7 @@
             @if (auth()->check() && auth()->user()->rol === 'receptionist')
                 <li class="{{ request()->routeIs('users.list') ? 'active' : '' }}"><a href="{{ route('users.list') }}">Pacientes</a></li>
             @endif
+            <li class="{{ request()->routeIs('specialties.index') ? 'active' : '' }}"><a href="{{ route('specialties.index') }}">Especialidades</a></li>
             <li class="{{ request()->routeIs('teams.index') ? 'active' : '' }}"><a href="{{ route('teams.index') }}">Equipo</a></li>
             @if (!auth()->check() || !auth()->user()->isAdmin())
                 <li class="{{ request()->routeIs('contact') ? 'active' : '' }}"><a href="{{ route('contact') }}">Donde Estamos</a></li>
@@ -41,6 +42,7 @@
 <ul class="sidenav" id="mobile-demo">
     <li class="{{ request()->routeIs('index') ? 'active' : '' }}"><a href="{{ route('index') }}">Inicio</a></li>
     <li class="{{ request()->routeIs('treatments.index') ? 'active' : '' }}"><a href="{{ route('treatments.index') }}">Tratamientos</a></li>
+    <li class="{{ request()->routeIs('specialties.index') ? 'active' : '' }}"><a href="{{ route('specialties.index') }}">Especialidades</a></li>
     <li class="{{ request()->routeIs('teams.index') ? 'active' : '' }}"><a href="{{ route('teams.index') }}">Equipo</a></li>
     <li class="{{ request()->routeIs('contact') ? 'active' : '' }}"><a href="{{ route('contact') }}">Donde Estamos</a></li>
     <li class="{{ request()->routeIs('login') ? 'active' : '' }}"><a href="{{ route('login') }}">Login</a></li>

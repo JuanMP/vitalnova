@@ -11,6 +11,7 @@ use App\Http\Controllers\TeamController;
 use App\Http\Middleware\IsAdmin;
 use App\Http\Middleware\IsDoctor;
 use App\Http\Middleware\IsReceptionist;
+use App\Http\Controllers\SpecialtyController;
 
 //Página de inicio
 Route::get('/', function () {
@@ -75,3 +76,7 @@ Route::get('/teams', [TeamController::class, 'index'])->name('teams.index'); //M
 Route::get('/contact', function () {
     return view('contact.index');
 })->name('contact')->middleware('notAdmin');
+
+//Ruta para Especialidades (Solo admin puede crearlas)
+Route::resource('specialties', SpecialtyController::class)->middleware('auth');
+
