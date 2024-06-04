@@ -21,8 +21,14 @@
         @foreach ($specialties as $specialty)
             <div class="col s12 m6 l3">
                 <div class="card">
+                    @if ($specialty->image)
+                        <div class="card-image">
+                            <img src="{{ asset($specialty->image) }}" alt="{{ $specialty->name }}">
+                        </div>
+                    @endif
                     <div class="card-content">
                         <span class="card-title">{{ $specialty->name }}</span>
+                        <p>{{ $specialty->description }}</p>
                     </div>
                     @if (auth()->check() && auth()->user()->isAdmin())
                         <div class="card-action">
