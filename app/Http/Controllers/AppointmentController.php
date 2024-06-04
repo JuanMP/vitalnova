@@ -25,17 +25,28 @@ class AppointmentController extends Controller
 
             return view('appointments.index', compact('appointments'));
         } else {
-            // Redirigir a la página de inicio de sesión o mostrar un error
+            //Redirigir a la página de inicio de sesión o mostrar un error
             return redirect()->route('login')->withErrors('Debe estar autenticado para ver las citas.');
         }
     }
     public function create(Request $request)
-    {
-        $treatments = Treatment::all();
-        $user_id = $request->get('user_id');
-        $appointments = Appointment::all(); // Añadido para pasar las citas a la vista
-        return view('appointments.create', compact('treatments', 'user_id', 'appointments'));
+{
+    $treatments = Treatment::all();
+    $user_id = $request->get('user_id');
+    $appointments = Appointment::all(); // Añadido para pasar las citas a la vista
+
+    // Obtener la disponibilidad de doctores por tratamiento
+    $doctorsAvailable = [];
+    foreach ($treatments as $treatment) {
+        $doctorsAvailable[$treatment->id] = User::whereHas('specialties', function ($query) use ($treatment) {
+            $query->where('specialty_id', $treatment->specialty_id);
+        })->exists();
     }
+
+    return view('appointments.create', compact('treatments', 'user_id', 'appointments', 'doctorsAvailable'));
+}
+
+
 
     public function store(Request $request)
     {

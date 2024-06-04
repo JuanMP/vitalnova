@@ -89,7 +89,7 @@
         </div>
         <div class="input-field col s12 center-align">
             @foreach($treatments as $treatment)
-                <button class="btn treatment-btn" data-treatment-id="{{ $treatment->id }}">{{ $treatment->title }}</button>
+                <button class="btn treatment-btn" data-treatment-id="{{ $treatment->id }}" data-available="{{ $doctorsAvailable[$treatment->id] }}">{{ $treatment->title }}</button>
             @endforeach
         </div>
     </div>
@@ -130,7 +130,7 @@
         var currentTreatmentId = null;
 
         function renderCalendar(treatmentId = null) {
-            var filteredAppointments = treatmentId 
+            var filteredAppointments = treatmentId
                 ? appointments.filter(function(app) { return app.treatment_id === treatmentId; })
                 : [];
 
@@ -223,6 +223,12 @@
 
         $('.treatment-btn').click(function() {
             var selectedTreatmentId = $(this).data('treatment-id');
+            var available = $(this).data('available');
+
+            if (!available) {
+                swal("No disponible", "No hay doctores disponibles para esta especialidad.", "error");
+                return;
+            }
 
             if (currentTreatmentId === selectedTreatmentId) {
                 //Si el mismo tratamiento está seleccionado, oculta las citas
