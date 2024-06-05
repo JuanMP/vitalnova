@@ -3,61 +3,20 @@
 @section('title', 'Configuración de Cookies')
 
 @section('content')
-
 <div class="container">
-    <h4 class="center-align">Configuración de Cookies</h4>
-    <p>Última actualización: [Fecha]</p>
+    <h3>Configuración de Cookies</h3>
 
-    <h5>1. Personalización de Cookies</h5>
-    <p>Puedes personalizar tus preferencias de cookies a continuación:</p>
+    <h5>Consentimiento y configuración de cookies</h5>
+    <p>
+        Cuando visites nuestra web por primera vez, te mostraremos una ventana emergente con una explicación sobre las cookies que utilizamos (“primera capa”). Tan pronto como hagas clic en el botón de aceptación, aceptas que usemos las categorías de cookies y plugins que has seleccionado en la ventana emergente, tal y como se describe en esta política de cookies. Puedes desactivar el uso de cookies a través de tu navegador, pero, por favor, ten en cuenta que las cookies son esenciales para el funcionamiento de internet, aportando innumerables ventajas en la prestación de servicios interactivos, facilitándole al Usuario la navegación y usabilidad de nuestra web.
+    </p>
+    <p>
+        El usuario puede modificar la configuración personalizada <a href="#!" class="blue-text">AQUÍ</a>.
+    </p>
 
-    <form action="#" id="cookieForm">
-        <p>
-            <label>
-                <input type="checkbox" name="essential" checked="checked" disabled="disabled" />
-                <span>Cookies Esenciales (requerido)</span>
-            </label>
-        </p>
-        <p>
-            <label>
-                <input type="checkbox" name="performance" checked="checked" />
-                <span>Cookies de Rendimiento</span>
-            </label>
-        </p>
-        <p>
-            <label>
-                <input type="checkbox" name="functionality" checked="checked" />
-                <span>Cookies de Funcionalidad</span>
-            </label>
-        </p>
-        <p>
-            <label>
-                <input type="checkbox" name="tracking" checked="checked" />
-                <span>Cookies de Seguimiento</span>
-            </label>
-        </p>
-        <button class="btn waves-effect waves-light" type="submit" name="action">Guardar Preferencias
-            <i class="material-icons right">save</i>
-        </button>
-    </form>
-
-    <h5>2. Cambios en la Configuración</h5>
-    <p>Puedes cambiar tus preferencias de cookies en cualquier momento utilizando el formulario anterior.</p>
-
-    <h5>3. Contacto</h5>
-    <p>Si tienes alguna pregunta sobre la configuración de cookies, por favor contáctanos a través de [correo electrónico de contacto].</p>
+    <h5>Activación, desactivación y eliminación de cookies</h5>
+    <p>
+        Puedes utilizar tu navegador de Internet para eliminar las cookies de forma automática o manual. También puedes especificar que ciertas cookies no pueden ser colocadas. Otra opción es cambiar los ajustes de tu navegador de Internet para que recibas un mensaje cada vez que se coloca una cookie. Para obtener más información sobre estas opciones, consulta las instrucciones de la sección de «Ayuda» de tu navegador.
+    </p>
 </div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('cookieForm');
-            form.addEventListener('submit', function(event) {
-                event.preventDefault();
-                // Aquí puedes agregar el código para guardar las preferencias de cookies
-                M.toast({html: 'Preferencias de cookies guardadas'});
-            });
-        });
-    </script>
-
 @endsection

@@ -4,62 +4,7 @@
 
 @section('content')
 
-<style>
-    /* Estilos para el modal */
-    #bookingModal {
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: white;
-        padding: 20px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.5);
-        z-index: 1000;
-    }
-    #bookingModal form {
-        display: flex;
-        flex-direction: column;
-    }
-    #bookingModal label, #bookingModal input, #bookingModal textarea, #bookingModal button {
-        margin-bottom: 10px;
-    }
-    #bookingModal button[type="button"] {
-        background: #ccc;
-        border: none;
-        padding: 10px;
-        cursor: pointer;
-    }
-    #bookingModal button[type="submit"] {
-        background: #4CAF50;
-        border: none;
-        padding: 10px;
-        cursor: pointer;
-        color: white;
-    }
-    #bookingModal .time-slots {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        margin-top: 20px;
-    }
-    #bookingModal .time-slot {
-        width: calc(20% - 10px);
-        margin-bottom: 10px;
-        padding: 5px;
-        border: 1px solid #ccc;
-        cursor: pointer;
-        text-align: center;
-    }
-    #bookingModal .time-slot.selected {
-        background-color: #4CAF50;
-        color: white;
-    }
-    #bookingModal .time-slot.disabled {
-        background-color: #eee;
-        cursor: not-allowed;
-    }
-</style>
+
 
 <div class="container">
     <h1>Editar Cita</h1>
@@ -122,7 +67,7 @@
         var currentTreatmentId = "{{ $appointment->treatment_id }}";
 
         function renderCalendar(treatmentId = null) {
-            var filteredAppointments = treatmentId 
+            var filteredAppointments = treatmentId
                 ? appointments.filter(function(app) { return app.treatment_id === treatmentId; })
                 : [];
 
@@ -235,5 +180,9 @@
         renderCalendar(currentTreatmentId);
     });
 </script>
+
+<!-- No funciona el Js en otra carpeta ni con DOM -->
+@vite(['resources/js/appointments.edit.js','resources/css/appointments.css'])
+
 
 @endsection

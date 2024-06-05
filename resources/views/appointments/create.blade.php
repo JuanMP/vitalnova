@@ -4,78 +4,6 @@
 
 @section('content')
 
-<style>
-    /* Estilos para el modal */
-    #bookingModal {
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: white;
-        padding: 20px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.5);
-        z-index: 1000;
-    }
-    #bookingModal form {
-        display: flex;
-        flex-direction: column;
-    }
-    #bookingModal label, #bookingModal input, #bookingModal textarea, #bookingModal button {
-        margin-bottom: 10px;
-    }
-    #bookingModal button[type="button"] {
-        background: #ccc;
-        border: none;
-        padding: 10px;
-        cursor: pointer;
-    }
-    #bookingModal button[type="submit"] {
-        background: #4CAF50;
-        border: none;
-        padding: 10px;
-        cursor: pointer;
-        color: white;
-    }
-    #bookingModal .time-slots {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        margin-top: 20px;
-    }
-    #bookingModal .time-slot {
-        width: calc(20% - 10px);
-        margin-bottom: 10px;
-        padding: 5px;
-        border: 1px solid #ccc;
-        cursor: pointer;
-        text-align: center;
-    }
-    #bookingModal .time-slot.selected {
-        background-color: #4CAF50;
-        color: white;
-    }
-    #bookingModal .time-slot.disabled {
-        background-color: #eee;
-        cursor: not-allowed;
-    }
-
-    /* Estilos para los botones */
-    .treatment-btn {
-        margin: 0 5px;
-        background-color: #2196F3; /* Color azul inicial */
-        color: white; /* Texto blanco */
-        transition: background-color 0.3s;
-    }
-    .treatment-btn:hover {
-        background-color: #1976D2; /* Color azul oscuro al pasar el mouse */
-    }
-    .treatment-btn.selected {
-        background-color: #4CAF50 !important; /* Color verde cuando está seleccionado */
-        color: white !important;
-    }
-</style>
-
 <div class="container">
     <h1>Reserva de Cita</h1>
     @if(session('success'))
@@ -248,5 +176,8 @@
         renderCalendar();
     });
 </script>
+
+@vite(['resources/js/appointments.create.js','resources/css/appointments.css'])
+
 
 @endsection
