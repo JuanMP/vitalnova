@@ -26,8 +26,8 @@
         </ul>
         @if (!auth()->check())
             <ul class="right hide-on-med-and-down">
-                <li class="{{ request()->routeIs('signup') ? 'active' : '' }}"><a href="{{ route('signup') }}">Registrarse</a></li>
-                <li class="{{ request()->routeIs('login') ? 'active' : '' }}"><a href="{{ route('login') }}">Login</a></li>
+                <li class="{{ request()->routeIs('signupForm') ? 'active' : '' }}"><a href="{{ route('signupForm') }}">Registrarse</a></li>
+                <li class="{{ request()->routeIs('loginForm') ? 'active' : '' }}"><a href="{{ route('loginForm') }}">Login</a></li>
             </ul>
         @else
             <ul class="right hide-on-med-and-down">
@@ -45,7 +45,7 @@
     <li class="{{ request()->routeIs('specialties.index') ? 'active' : '' }}"><a href="{{ route('specialties.index') }}">Especialidades</a></li>
     <li class="{{ request()->routeIs('teams.index') ? 'active' : '' }}"><a href="{{ route('teams.index') }}">Equipo</a></li>
     <li class="{{ request()->routeIs('contact') ? 'active' : '' }}"><a href="{{ route('contact') }}">Donde Estamos</a></li>
-    <li class="{{ request()->routeIs('login') ? 'active' : '' }}"><a href="{{ route('login') }}">Login</a></li>
+    <li class="{{ request()->routeIs('loginForm') ? 'active' : '' }}"><a href="{{ route('loginForm') }}">Login</a></li>
 </ul>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>

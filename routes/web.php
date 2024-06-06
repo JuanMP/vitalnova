@@ -12,6 +12,8 @@ use App\Http\Middleware\IsAdmin;
 use App\Http\Middleware\IsDoctor;
 use App\Http\Middleware\IsReceptionist;
 use App\Http\Controllers\SpecialtyController;
+use App\Http\Controllers\HomeController;
+
 
 //Página de inicio
 Route::get('/', function () {
@@ -25,7 +27,7 @@ Route::get('/cookies/policy', function () { return view('legal.cookies.policy');
 Route::get('/cookies/settings', function () { return view('legal.cookies.settings'); })->name('legal.cookies.settings'); //Configuración de cookies
 
 //Rutas para el navbar
-Route::view('/contact', 'contact.index')->name('contact'); //Página de contacto
+Route::view('/contact', 'contact.index')->name('contact');
 
 //Rutas de autenticación
 Route::get('signup', [LoginController::class, 'signupForm'])->name('signupForm'); //Muestra formulario de registro
@@ -73,10 +75,20 @@ Route::get('/generate-document/{appointmentId}', [DocumentController::class, 'ge
 //Página de equipo
 Route::get('/teams', [TeamController::class, 'index'])->name('teams.index'); //Muestra el equipo
 
-Route::get('/contact', function () {
-    return view('contact.index');
-})->name('contact')->middleware('notAdmin');
+// Route::get('/contact', function () {
+//     return view('contact.index');
+// })->name('contact')->middleware('notAdmin');
 
 //Ruta para Especialidades (Solo admin puede crearlas)
 Route::resource('specialties', SpecialtyController::class)->middleware('auth');
 
+//Ruta para la página principal
+Route::get('/', [HomeController::class, 'index'])->name('index');
+
+//Middleware para evitar que Admin tenga acceso
+Route::middleware(['notAdmin'])->group(function () {
+    Route::resource('appointments', AppointmentController::class);
+    Route::get('/contact', function () {
+        return view('contact.index');
+    })->name('contact');
+});

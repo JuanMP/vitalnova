@@ -33,9 +33,9 @@ class AppointmentController extends Controller
 {
     $treatments = Treatment::all();
     $user_id = $request->get('user_id');
-    $appointments = Appointment::all(); // Añadido para pasar las citas a la vista
+    $appointments = Appointment::all(); //Añadido para pasar las citas a la vista
 
-    // Obtener la disponibilidad de doctores por tratamiento
+    //Obtiene la disponibilidad de doctores por tratamiento
     $doctorsAvailable = [];
     foreach ($treatments as $treatment) {
         $doctorsAvailable[$treatment->id] = User::whereHas('specialties', function ($query) use ($treatment) {
@@ -97,7 +97,7 @@ class AppointmentController extends Controller
     public function edit(Appointment $appointment)
     {
         $treatments = Treatment::all();
-    $appointments = Appointment::all(); // Añadir esta línea para obtener todas las citas
+    $appointments = Appointment::all();
     return view('appointments.edit', compact('appointment', 'treatments', 'appointments'));
     }
 

@@ -18,7 +18,7 @@ class NotAdmin
     public function handle(Request $request, Closure $next)
     {
         if (Auth::check() && Auth::user()->rol == 'admin') {
-            return redirect('/'); // Redirige a la página principal o cualquier otra página que prefieras
+            return redirect('/'); //Redirige a la página principal
         }
 
         return $next($request);

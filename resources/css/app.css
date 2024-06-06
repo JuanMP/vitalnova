@@ -46,7 +46,7 @@
   .slider .indicators .indicator-item.active {
     background-color: #ffffff;
   }
-  
+
   .slider .indicators {
     bottom: 60px;
     z-index: 100;
@@ -60,3 +60,11 @@
     background-color: #2196f3 !important;
 }
 
+
+/* Cards */
+.card .card-title {
+    color: #03045E !important;
+    background: rgba(255, 255, 255, 0.7);
+    padding: 5px;
+    border-radius: 3px;
+}

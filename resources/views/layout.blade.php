@@ -9,14 +9,14 @@
     <!-- Favicon -->
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/png">
 
-
     <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
     <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+    <!-- Materialize -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <!--J Query -->
     <script src="http://code.jquery.com/jquery-latest.js"></script>
 
     <!-- Archivos CSS de FullCalendar -->
@@ -45,10 +45,8 @@
     @vite(['resources/js/appointments.create.js', 'resources/css/appointments.create.css'])
 
 
-
     <!-- Título de la página -->
     <title>Vitalnova</title>
-
 
 
     @include('partials.nav')
@@ -67,6 +65,15 @@
     @include('partials.scroll')
 
     @include('partials.footer')
+
+    <!-- Inicialización de Materialize JS -->
+    <script>
+        $(document).ready(function(){
+            $('.slider').slider();
+            $('.parallax').parallax();
+            $('.carousel').carousel();
+        });
+    </script>
 </body>
 
 </html>

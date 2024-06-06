@@ -12,9 +12,12 @@ class TreatmentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+
+     //Para mostrar en la página principal
+
+     public function index()
     {
-        if (Auth::check() && Auth::user()->isDoctor()) { 
+        if (Auth::check() && Auth::user()->isDoctor()) {
             $specialtyIds = Auth::user()->specialties->pluck('id');
             $treatments = Treatment::whereIn('specialty_id', $specialtyIds)->get();
         } else {
