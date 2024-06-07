@@ -5,17 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 
     <!-- Favicon -->
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/png">
 
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
-    <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <!-- Materialize -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
     <!--J Query -->
     <script src="http://code.jquery.com/jquery-latest.js"></script>
 
@@ -26,13 +28,10 @@
     <script src="/ruta/a/fullcalendar/daygrid/main.js"></script>
 
     <!-- PAGINA OFICIAL DE FULL CALENDAR -->
-    {{-- <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script> --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" />
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> --}}
-    {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet"> --}}
+
     <!-- CALENDARIO IDIOMA ESPAÑOL -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/locale/es.js"></script>
 

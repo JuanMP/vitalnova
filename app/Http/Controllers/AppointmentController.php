@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AppointmentRequest;
 use App\Models\Appointment;
 use App\Models\User;
 use App\Models\Treatment;
@@ -48,17 +49,17 @@ class AppointmentController extends Controller
 
 
 
-    public function store(Request $request)
+    public function store(AppointmentRequest $request)
     {
-        $request->validate([
-            'date' => 'required|date',
-            'time' => 'required|date_format:H:i',
-            'email' => 'required|email',
-            'telephone' => 'required|string|max:15',
-            'observations' => 'nullable|string',
-            'treatment_id' => 'required|exists:treatments,id',
-            'user_id' => 'required|exists:users,id'
-        ]);
+        // $request->validate([
+        //     // 'date' => 'required|date',
+        //     // 'time' => 'required|date_format:H:i',
+        //     // 'email' => 'required|email',
+        //     // 'telephone' => 'required|string|max:15',
+        //     // 'observations' => 'nullable|string',
+        //     // 'treatment_id' => 'required|exists:treatments,id',
+        //     // 'user_id' => 'required|exists:users,id'
+        // ]);
 
         $treatment = Treatment::findOrFail($request->treatment_id);
 
@@ -101,16 +102,16 @@ class AppointmentController extends Controller
     return view('appointments.edit', compact('appointment', 'treatments', 'appointments'));
     }
 
-    public function update(Request $request, Appointment $appointment)
+    public function update(AppointmentRequest $request, Appointment $appointment)
     {
-        $request->validate([
-            'date' => 'required|date',
-            'time' => 'required|date_format:H:i',
-            'email' => 'required|email',
-            'telephone' => 'required|string|max:15',
-            'observations' => 'nullable|string',
-            'treatment_id' => 'required|exists:treatments,id',
-        ]);
+        // $request->validate([
+        //     'date' => 'required|date',
+        //     'time' => 'required|date_format:H:i',
+        //     'email' => 'required|email',
+        //     'telephone' => 'required|string|max:15',
+        //     'observations' => 'nullable|string',
+        //     'treatment_id' => 'required|exists:treatments,id',
+        // ]);
 
         $appointment->date = $request->get('date');
         $appointment->time = $request->get('time');
@@ -122,6 +123,14 @@ class AppointmentController extends Controller
 
         return redirect()->route('appointments.index')->with('success', 'Cita actualizada con éxito');
     }
+
+
+    public function show($id)
+{
+    $appointment = Appointment::findOrFail($id);
+    return view('appointments.show', compact('appointment'));
+}
+
 
     public function destroy(Appointment $appointment)
     {
