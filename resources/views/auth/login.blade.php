@@ -17,7 +17,7 @@
             <div class="row">
               <div class="input-field col s12">
                 <i class="material-icons prefix">account_circle</i>
-                <input type="text" id="username" name="email" class="validate" value="{{ old('email') }}" required>
+                <input type="text" id="email" name="email" class="validate" value="{{ old('email') }}" required>
                 <label for="email">Correo Electrónico</label>
                 <span class="helper-text" data-error="Campo obligatorio"></span>
               </div>
@@ -28,6 +28,16 @@
                 <span class="helper-text" data-error="Campo obligatorio"></span>
               </div>
             </div>
+
+            <!-- Mensaje de error -->
+            @if (isset($error))
+              <div class="row">
+                <div class="col s12">
+                  <span class="red-text text-darken-2">{{ $error }}</span>
+                </div>
+              </div>
+            @endif
+
             <div class="row">
               <div class="col s6">
                 <p>

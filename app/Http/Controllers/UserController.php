@@ -7,6 +7,8 @@ use App\Http\Requests\UserRequest;
 use App\Models\User;
 use App\Models\Appointment;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
+
 
 class UserController extends Controller
 {
@@ -35,6 +37,7 @@ class UserController extends Controller
             'telephone' => 'required|string|max:255',
             'birthday' => 'required|date',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'password' => 'nullable|string|min:8|confirmed',
         ]);
 
         $user->name = $request->input('name');
@@ -52,12 +55,16 @@ class UserController extends Controller
             $user->image = str_replace('public/', '/storage/', $imagePath);
         }
 
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->input('password'));
+        }
+
         $user->save();
 
         return redirect()->route('users.profile')->with('success', 'Perfil actualizado con éxito');
     }
 
-   
+
     public function list(Request $request)
     {
         $search = $request->get('search');

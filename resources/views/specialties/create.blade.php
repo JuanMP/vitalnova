@@ -37,7 +37,29 @@
             </div>
         </div>
 
+        <div class="row">
+            <div class="input-field col s12">
+                <select name="doctors[]" id="doctors" multiple>
+                    <option value="" disabled selected>Elige doctores</option>
+                    @foreach ($doctors as $doctor)
+                        <option value="{{ $doctor->id }}"
+                            {{ in_array($doctor->id, old('doctors', $selectedDoctors ?? [])) ? 'selected' : '' }}>
+                            {{ $doctor->name }}
+                        </option>
+                    @endforeach
+                </select>
+                <label for="doctors">Doctores</label>
+            </div>
+        </div>
+
         <button type="submit" class="btn waves-effect waves-light">{{ $buttonText }}</button>
     </form>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('select');
+        var instances = M.FormSelect.init(elems);
+    });
+</script>
 @endsection

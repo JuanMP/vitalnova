@@ -23,7 +23,7 @@
                     <form action="{{ route('users.update', $user) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
-                        
+
                         <div class="row">
                             <div class="input-field col s12">
                                 <input type="text" name="name" id="name" value="{{ old('name', $user->name) }}" required>
@@ -54,6 +54,7 @@
                                 <label for="birthday" class="active">Fecha de nacimiento</label>
                             </div>
                         </div>
+
                         <div class="row">
                             <div class="file-field input-field col s12">
                                 <div class="btn">
@@ -63,6 +64,27 @@
                                 <div class="file-path-wrapper">
                                     <input class="file-path validate" type="text">
                                 </div>
+                            </div>
+                        </div>
+
+                        @if ($user->image)
+                            <div class="row">
+                                <div class="col s12 center-align">
+                                    <img src="{{ $user->image }}" alt="Imagen de perfil" class="circle responsive-img" style="width: 150px; height: 150px;">
+                                </div>
+                            </div>
+                        @endif
+
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input type="password" name="password" id="password">
+                                <label for="password" class="active">Contraseña</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input type="password" name="password_confirmation" id="password_confirmation">
+                                <label for="password_confirmation" class="active">Confirmar Contraseña</label>
                             </div>
                         </div>
 
