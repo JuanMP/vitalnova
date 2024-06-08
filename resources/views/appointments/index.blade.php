@@ -29,12 +29,18 @@
                                 <p><strong>Observaciones:</strong> {{ $appointment->observations }}</p>
                             </div>
                             <div class="card-action">
-                                <a href="{{ route('appointments.edit', $appointment->id) }}" class="btn blue waves-effect waves-light">Editar</a>
-                                <form action="{{ route('appointments.destroy', $appointment->id) }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn red waves-effect waves-light">Eliminar</button>
-                                </form>
+                                @if($appointment->status_id == 1)
+                                    <a href="{{ route('appointments.edit', $appointment->id) }}" class="btn blue waves-effect waves-light">Editar</a>
+                                    <form action="{{ route('appointments.destroy', $appointment->id) }}" method="POST" style="display:inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn red waves-effect waves-light">Eliminar</button>
+                                    </form>
+                                @elseif($appointment->status_id == 2)
+                                    <span class="grey-text">Cita en curso</span>
+                                @elseif($appointment->status_id == 3)
+                                    <span class="grey-text">Cita finalizada</span>
+                                @endif
                             </div>
                         </div>
                     </div>

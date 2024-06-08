@@ -41,6 +41,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/users/profile', [UserController::class, 'show'])->name('users.profile'); //Muestra perfil del usuario
     Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit'); //Muestra formulario de edición de perfil
     Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update'); //Procesa actualización del perfil
+    Route::get('/appointments/historical', [AppointmentController::class, 'historical'])->name('appointments.historical');
+
 });
 
 
@@ -71,6 +73,8 @@ Route::middleware([IsReceptionist::class])->group(function () {
 
 //Ruta para la gestión de citas
 Route::resource('appointments', AppointmentController::class);
+
+
 
 //Ruta para generar PDF
 Route::get('/generate-document/{appointmentId}', [DocumentController::class, 'generateAppointmentDocument'])->name('generate.document'); //Generar documentos PDF

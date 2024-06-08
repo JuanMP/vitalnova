@@ -5,7 +5,7 @@
 @section('content')
 
 <div class="text align-center">
-    <h1>Error</h1>
+    <h1>Error 500</h1>
     <br>
     <a href="/" class="btn btn-primary">Vuelve al índice</a>
     </div>

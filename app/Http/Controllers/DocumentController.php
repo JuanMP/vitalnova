@@ -1,29 +1,35 @@
 <?php
-// app/Http/Controllers/DocumentController.php
 
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Appointment;
-use \Barryvdh\DomPDF\Facade\Pdf;
-
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class DocumentController extends Controller
 {
     public function generateAppointmentDocument($appointmentId)
     {
-        $appointment = Appointment::findOrFail($appointmentId);
+        $appointment = Appointment::with(['doctor', 'treatment', 'user'])->findOrFail($appointmentId);
 
-        $data = [
-            'date' => $appointment->date,
-            'time' => $appointment->time,
-            'specialist' => $appointment->specialist,
-            'comentario' => $appointment->comentario,
-            'user' => $appointment->user
-        ];
+        //Convierte la imagen a Base64
+        $logoPath = public_path('img/others/logo.png');
+        $logoData = base64_encode(file_get_contents($logoPath));
+        $logoSrc = 'data:image/png;base64,' . $logoData;
 
-        $pdf = PDF::loadView('pdf.appointment', $data);
+        $options = new Options();
+        $options->set('isRemoteEnabled', true);
 
-        return $pdf->download('appointment.pdf');
+        $dompdf = new Dompdf($options);
+
+        //Pasa la imagen codificada en Base64 a la vista
+        $view = view('pdf.appointment', compact('appointment', 'logoSrc'))->render();
+
+        $dompdf->loadHtml($view);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        return $dompdf->stream('Justificante_Cita_' . $appointment->id . '.pdf');
     }
 }

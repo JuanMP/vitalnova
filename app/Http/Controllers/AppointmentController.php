@@ -35,7 +35,12 @@ class AppointmentController extends Controller
     {
         $treatments = Treatment::all();
         $user_id = $request->get('user_id');
-        $appointments = Appointment::all(); //Añadido para pasar las citas a la vista
+
+        //Se obtiene el usuario especificado por el ID
+        $user = User::find($user_id);
+
+        //Añade para pasar las citas a la vista
+        $appointments = Appointment::all();
 
         //Obtiene la disponibilidad de doctores por tratamiento
         $doctorsAvailable = [];
@@ -45,58 +50,54 @@ class AppointmentController extends Controller
             })->exists();
         }
 
-        return view('appointments.create', compact('treatments', 'user_id', 'appointments', 'doctorsAvailable'));
+        //Pasa los datos del usuario al formulario de creación de citas
+        return view('appointments.create', compact('treatments', 'user', 'appointments', 'doctorsAvailable'));
     }
+
 
 
 
     public function store(AppointmentRequest $request)
-    {
-        // $request->validate([
-        //     // 'date' => 'required|date',
-        //     // 'time' => 'required|date_format:H:i',
-        //     // 'email' => 'required|email',
-        //     // 'telephone' => 'required|string|max:15',
-        //     // 'observations' => 'nullable|string',
-        //     // 'treatment_id' => 'required|exists:treatments,id',
-        //     // 'user_id' => 'required|exists:users,id'
-        // ]);
+{
+    $treatment = Treatment::findOrFail($request->treatment_id);
 
-        $treatment = Treatment::findOrFail($request->treatment_id);
+    //Encuentra doctores con la especialidad del tratamiento
+    $doctors = User::whereHas('specialties', function ($query) use ($treatment) {
+        $query->where('specialty_id', $treatment->specialty_id);
+    })->withCount('appointments')->get();
 
-        //Encuentra doctores con la especialidad del tratamiento
-        $doctors = User::whereHas('specialties', function ($query) use ($treatment) {
-            $query->where('specialty_id', $treatment->specialty_id);
-        })->withCount('appointments')->get();
+    //Encuentra el doctor con menos citas
+    $doctor = $doctors->sortBy('appointments_count')->first();
 
-        //Encientra el doctor con menos citas
-        $doctor = $doctors->sortBy('appointments_count')->first();
+    //Si hay varios doctores con el mismo número de citas, seleccionar uno al azar
+    $minAppointmentsCount = $doctor->appointments_count;
+    $leastBusyDoctors = $doctors->filter(function ($doctor) use ($minAppointmentsCount) {
+        return $doctor->appointments_count == $minAppointmentsCount;
+    });
 
-        //Si hay varios doctores con el mismo número de citas, seleccionar uno al azar
-        $minAppointmentsCount = $doctor->appointments_count;
-        $leastBusyDoctors = $doctors->filter(function ($doctor) use ($minAppointmentsCount) {
-            return $doctor->appointments_count == $minAppointmentsCount;
-        });
-
-        if ($leastBusyDoctors->count() > 1) {
-            $doctor = $leastBusyDoctors->random();
-        }
-
-        $appointment = new Appointment();
-        $appointment->date = $request->get('date');
-        $appointment->time = $request->get('time');
-        $appointment->email = $request->get('email');
-        $appointment->telephone = $request->get('telephone');
-        $appointment->observations = $request->get('observations');
-        $appointment->user_id = $request->input('user_id');
-        $appointment->treatment_id = $request->get('treatment_id');
-        $appointment->doctor_id = $doctor->id;
-        $appointment->status_id = 1;
-
-        $appointment->save();
-
-        return redirect()->route('appointments.index')->with('success', 'Cita creada con éxito');
+    if ($leastBusyDoctors->count() > 1) {
+        $doctor = $leastBusyDoctors->random();
     }
+
+    //Obtén el usuario específico para la cita
+    $user = User::findOrFail($request->user_id);
+
+    $appointment = new Appointment();
+    $appointment->date = $request->get('date');
+    $appointment->time = $request->get('time');
+    $appointment->email = $user->email; //Usa el email del usuario especificado
+    $appointment->telephone = $user->telephone; //Usa el teléfono del usuario especificado
+    $appointment->observations = $request->get('observations');
+    $appointment->user_id = $user->id;
+    $appointment->treatment_id = $request->get('treatment_id');
+    $appointment->doctor_id = $doctor->id;
+    $appointment->status_id = 1;
+
+    $appointment->save();
+
+    return redirect()->route('appointments.index')->with('success', 'Cita creada con éxito');
+}
+
 
     public function edit(Appointment $appointment)
     {
@@ -107,14 +108,14 @@ class AppointmentController extends Controller
 
     public function update(AppointmentRequest $request, Appointment $appointment)
     {
-        // $request->validate([
-        //     'date' => 'required|date',
-        //     'time' => 'required|date_format:H:i',
-        //     'email' => 'required|email',
-        //     'telephone' => 'required|string|max:15',
-        //     'observations' => 'nullable|string',
-        //     'treatment_id' => 'required|exists:treatments,id',
-        // ]);
+        //$request->validate([
+        //    'date' => 'required|date',
+        //    'time' => 'required|date_format:H:i',
+        //    'email' => 'required|email',
+        //    'telephone' => 'required|string|max:15',
+        //    'observations' => 'nullable|string',
+        //    'treatment_id' => 'required|exists:treatments,id',
+        //]);
 
         $appointment->date = $request->get('date');
         $appointment->time = $request->get('time');
@@ -147,7 +148,7 @@ class AppointmentController extends Controller
         $appointment = Appointment::findOrFail($id);
         if ($appointment->status_id == 1) { //Si el estado es 'Pendiente'
             $appointment->status_id = 2; //Cambia el estado a 'En curdo'
-            $appointment->appointment_start = now(); //Establece la hora de inicio a la hora actual
+            $appointment->appointment_start = now()->addHours(2); //Establece la hora de inicio a la hora actual
             $appointment->save();
             return redirect()->route('appointments.index')->with('success', 'Cita iniciada con éxito.');
         }
@@ -161,10 +162,24 @@ class AppointmentController extends Controller
         $appointment = Appointment::findOrFail($id);
         if ($appointment->status_id == 2) { //Si el estado es 'En curso'
             $appointment->status_id = 3; //Cambiar el estado a 'Finalizada'
-            $appointment->appointment_end = now(); //Establece la hora de fin a la hora actual
+            $appointment->appointment_end = now()->addHours(2); //Establece la hora de fin a la hora actual
             $appointment->save();
             return redirect()->route('appointments.index')->with('success', 'Cita finalizada con éxito.');
         }
         return redirect()->route('appointments.index')->with('error', 'No se puede finalizar la cita.');
+    }
+
+    public function historical()
+    {
+        $user = Auth::user();
+
+        //Recuperar citas históricas del usuario autenticado
+        $appointments = Appointment::where('user_id', $user->id)
+                                    ->where('status_id', 3) //Supongamos que el estado 3 es "finalizado"
+                                    ->with('doctor', 'treatment')
+                                    ->orderBy('date', 'desc')
+                                    ->get();
+
+        return view('appointments.historical', compact('appointments'));
     }
 }
