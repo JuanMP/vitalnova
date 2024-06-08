@@ -58,7 +58,10 @@ Route::get('/treatments', [TreatmentController::class, 'index'])->name('treatmen
 
 //Rutas para los doctores y recepcionistas (puedes añadir las rutas específicas aquí)
 Route::middleware([IsDoctor::class])->group(function () {
-    //Rutas específicas para doctores
+    //Rutas específicas para doctores de las citas
+    Route::patch('/appointments/{id}/start', [AppointmentController::class, 'start'])->name('appointments.start');
+    Route::patch('/appointments/{id}/finish', [AppointmentController::class, 'finish'])->name('appointments.finish');
+
 });
 
 //Rutas para la página de Pacientes (solo para la recepcionista)

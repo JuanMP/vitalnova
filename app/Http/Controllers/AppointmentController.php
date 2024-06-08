@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Treatment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class AppointmentController extends Controller
 {
@@ -17,7 +18,7 @@ class AppointmentController extends Controller
 
         if ($user) {
             if ($user->isDoctor()) {
-                $appointments = Appointment::where('doctor_id', $user->id)->with('user', 'treatment')->get();
+                $appointments = Appointment::where('doctor_id', $user->id)->whereDate('date', Carbon::today())->with('user', 'treatment')->get();
             } else if ($user->rol === 'receptionist') {
                 $appointments = Appointment::with('user', 'treatment', 'doctor')->get();
             } else {
@@ -31,21 +32,21 @@ class AppointmentController extends Controller
         }
     }
     public function create(Request $request)
-{
-    $treatments = Treatment::all();
-    $user_id = $request->get('user_id');
-    $appointments = Appointment::all(); //Añadido para pasar las citas a la vista
+    {
+        $treatments = Treatment::all();
+        $user_id = $request->get('user_id');
+        $appointments = Appointment::all(); //Añadido para pasar las citas a la vista
 
-    //Obtiene la disponibilidad de doctores por tratamiento
-    $doctorsAvailable = [];
-    foreach ($treatments as $treatment) {
-        $doctorsAvailable[$treatment->id] = User::whereHas('specialties', function ($query) use ($treatment) {
-            $query->where('specialty_id', $treatment->specialty_id);
-        })->exists();
+        //Obtiene la disponibilidad de doctores por tratamiento
+        $doctorsAvailable = [];
+        foreach ($treatments as $treatment) {
+            $doctorsAvailable[$treatment->id] = User::whereHas('specialties', function ($query) use ($treatment) {
+                $query->where('specialty_id', $treatment->specialty_id);
+            })->exists();
+        }
+
+        return view('appointments.create', compact('treatments', 'user_id', 'appointments', 'doctorsAvailable'));
     }
-
-    return view('appointments.create', compact('treatments', 'user_id', 'appointments', 'doctorsAvailable'));
-}
 
 
 
@@ -90,6 +91,8 @@ class AppointmentController extends Controller
         $appointment->user_id = $request->input('user_id');
         $appointment->treatment_id = $request->get('treatment_id');
         $appointment->doctor_id = $doctor->id;
+        $appointment->status_id = 1;
+
         $appointment->save();
 
         return redirect()->route('appointments.index')->with('success', 'Cita creada con éxito');
@@ -98,8 +101,8 @@ class AppointmentController extends Controller
     public function edit(Appointment $appointment)
     {
         $treatments = Treatment::all();
-    $appointments = Appointment::all();
-    return view('appointments.edit', compact('appointment', 'treatments', 'appointments'));
+        $appointments = Appointment::all();
+        return view('appointments.edit', compact('appointment', 'treatments', 'appointments'));
     }
 
     public function update(AppointmentRequest $request, Appointment $appointment)
@@ -126,15 +129,42 @@ class AppointmentController extends Controller
 
 
     public function show($id)
-{
-    $appointment = Appointment::findOrFail($id);
-    return view('appointments.show', compact('appointment'));
-}
+    {
+        $appointment = Appointment::findOrFail($id);
+        return view('appointments.show', compact('appointment'));
+    }
 
 
     public function destroy(Appointment $appointment)
     {
         $appointment->delete();
         return redirect()->route('appointments.index')->with('success', 'Cita eliminada con éxito');
+    }
+
+    //Función qe cambia el estado de la cita de 1 Pendiente a 2 En curso
+    public function start($id)
+    {
+        $appointment = Appointment::findOrFail($id);
+        if ($appointment->status_id == 1) { //Si el estado es 'Pendiente'
+            $appointment->status_id = 2; //Cambia el estado a 'En curdo'
+            $appointment->appointment_start = now(); //Establece la hora de inicio a la hora actual
+            $appointment->save();
+            return redirect()->route('appointments.index')->with('success', 'Cita iniciada con éxito.');
+        }
+        return redirect()->route('appointments.index')->with('error', 'No se puede iniciar la cita.');
+    }
+
+
+    //Funcion que cambia el estado de 2 En curso a 3 Finalizada
+    public function finish($id)
+    {
+        $appointment = Appointment::findOrFail($id);
+        if ($appointment->status_id == 2) { //Si el estado es 'En curso'
+            $appointment->status_id = 3; //Cambiar el estado a 'Finalizada'
+            $appointment->appointment_end = now(); //Establece la hora de fin a la hora actual
+            $appointment->save();
+            return redirect()->route('appointments.index')->with('success', 'Cita finalizada con éxito.');
+        }
+        return redirect()->route('appointments.index')->with('error', 'No se puede finalizar la cita.');
     }
 }

@@ -60,10 +60,28 @@
                                 <p><strong>Teléfono: </strong> {{ $appointment->telephone }}</p>
                                 @if (Auth::user()->isDoctor())
                                     <p><strong>Paciente: </strong> {{ $appointment->user->name }}</p>
+                                    <p><strong>Observaciones: </strong> {{ $appointment->observations }}</p>
+                                    @if($appointment->status_id == 1)
+                                        <form action="{{ route('appointments.start', $appointment->id) }}" method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="btn green waves-effect waves-light">Iniciar Cita</button>
+                                        </form>
+                                    @elseif($appointment->status_id == 2)
+                                        <form action="{{ route('appointments.finish', $appointment->id) }}" method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="btn orange waves-effect waves-light">Finalizar Cita</button>
+                                        </form>
+                                    @elseif($appointment->status_id == 3)
+
+                                        <button  class="btn blue waves-effect waves-light">Cita Finalizada</button>
+
+                                    @endif
                                 @else
                                     <p><strong>Doctor: </strong> {{ $appointment->doctor->name }}</p>
                                 @endif
-                                <p><strong>Observaciones: </strong> {{ $appointment->observations }}</p>
+
                             </div>
                         </div>
                     </div>
@@ -82,4 +100,3 @@
 @endif
 
 @endsection
-
