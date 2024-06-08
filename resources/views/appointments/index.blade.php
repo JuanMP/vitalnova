@@ -101,7 +101,8 @@
     <script>
         var appointments = @json($appointments);
     </script>
-    @vite(['resources/js/calendar.receptionist.js'])
+    @vite(['resources/js/appointments.receptionist.js','resources/css/appointments.create.css'])
+
 
 @endif
 

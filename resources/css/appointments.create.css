@@ -51,3 +51,14 @@
     background-color: #eee;
     cursor: not-allowed;
 }
+
+.swal-button--delete {
+    background-color: red !important;
+    color: white !important;
+}
+
+.swal-button--edit {
+    background-color: #80FFDB !important;
+    color: white !important;
+}
+

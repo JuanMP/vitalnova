@@ -20,7 +20,8 @@ $(document).ready(function() {
                         treatment: app.treatment.title,
                         userName: app.user.name,
                         userEmail: app.user.email,
-                        userTelephone: app.user.telephone
+                        userTelephone: app.user.telephone,
+                        appointmentDateTime: moment(app.date + 'T' + app.time)
                     }
                 };
             }),
@@ -39,20 +40,33 @@ $(document).ready(function() {
                         <p><strong>Observaciones:</strong> ${observations}</p>
                     `;
 
+                    var now = moment(); //Fecha y hora actual
+                    var isPast = event.extendedProps.appointmentDateTime.isBefore(now); //Verifico si la cita ya ha pasado
+
+                    var buttons = {
+                        cancel: {
+                            text: "OK",
+                            className: "swal-button--default"
+                        }
+                    };
+
+                    if (!isPast) { //Si la cita no ha pasado, salen los botones de editar y eliminar
+                        buttons.edit = {
+                            text: "Editar",
+                            className: "swal-button--edit",
+                            value: "edit",
+                        };
+                        buttons.delete = {
+                            text: "Eliminar",
+                            className: "swal-button--delete",
+                            value: "delete",
+                        };
+                    }
+
                     swal({
                         title: "Detalle de la cita",
                         content: content,
-                        buttons: {
-                            cancel: "OK",
-                            edit: {
-                                text: "Editar",
-                                value: "edit",
-                            },
-                            delete: {
-                                text: "Eliminar",
-                                value: "delete",
-                            }
-                        }
+                        buttons: buttons
                     }).then((value) => {
                         switch (value) {
                             case "edit":
