@@ -6,7 +6,7 @@
 
 <section class="section">
     <div class="container">
-        <h1 class="center-align">Bienvenido a la Clínica Dental</h1>
+        <h1 class="center-align">Bienvenido a la Clínica Dental Vitalnova</h1>
         <p class="flow-text">Somos una clínica dental comprometida con la salud bucal y la sonrisa de nuestros pacientes. Nuestro equipo de profesionales altamente calificados está aquí para ofrecerte un servicio de calidad y cuidado personalizado.</p>
     </div>
 </section>
@@ -16,28 +16,28 @@
         <ul class="slides">
             <li>
                 <img src="img/slider/sonrisa.jpg">
-                <div class="caption center-align">
+                <div class="caption caption-align-right">
                     <h4>Vitalnova crea sonrisas</h4>
                     <h5 class="light grey-text text-lighten-3">Desde 2024 siendo los mejores</h5>
                 </div>
             </li>
             <li>
                 <img src="img/slider/implante.jpg">
-                <div class="caption left-align">
+                <div class="caption caption-align-right">
                     <h4>Déjanos ser parte de tu bienestar</h4>
                     <h5 class="light grey-text text-lighten-3">La felicidad puede ser para todos</h5>
                 </div>
             </li>
             <li>
                 <img src="img/slider/limpieza.jpg">
-                <div class="caption right-align">
+                <div class="caption caption-align-right">
                     <h3>Las sonrisas perfectas comienzan en Vitalnova</h3>
                     <h4 class="light grey-text text-lighten-3">Sonríe con confianza, elige Vitalnova</h4>
                 </div>
             </li>
             <li>
                 <img src="img/slider/contenta.jpg">
-                <div class="caption center-align">
+                <div class="caption caption-align-right">
                     <h3>Sonrisas que transforman vidas</h3>
                     <h4 class="light grey-text text-lighten-3">Primera visita gratuita</h4>
                 </div>
@@ -45,6 +45,7 @@
         </ul>
     </div>
 </section>
+
 
 
 
@@ -73,15 +74,29 @@
     </div>
 </section>
 
-<section class="section">
-    <div class="carousel">
-        <a class="carousel-item"><img class="materialboxed" src="img/carrousel/contenta.jpg"></a>
-        <a class="carousel-item"><img class="materialboxed" src="img/carrousel/limpieza.jpg"></a>
-        <a class="carousel-item"><img class="materialboxed" src="img/carrousel/familia.png"></a>
-        <a class="carousel-item"><img class="materialboxed" src="img/carrousel/niñoscontentos.png"></a>
-        <a class="carousel-item"><img class="materialboxed" src="img/carrousel/pacientefeliz.jpg"></a>
+
+
+
+<section class="section lighten-4">
+    <div class="container">
+        <h2 class="center-align">Últimas Reseñas</h2>
+        <div class="carousel">
+            @foreach ($latestReviews as $review)
+                <div class="carousel-item">
+                    <div class="card">
+                        <div class="card-content">
+                            <span class="card-title">{{ $review->appointment->user->name }}</span>
+                            <p><strong>Reseña:</strong> {{ $review->review }}</p>
+                            <p><strong>Puntuación:</strong> {{ $review->score }}/5</p>
+                            <p><strong>Fecha:</strong> {{ $review->created_at->format('d/m/Y') }}</p>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
     </div>
 </section>
+@vite(['resources/css/carrousel.css'])
 
 
 @endsection

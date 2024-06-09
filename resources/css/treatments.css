@@ -1,0 +1,31 @@
+ /* Estilo común para todas las tarjetas (tratamientos y equipo) */
+ .team-card, .treatment-card {
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+    max-height: 450px; /* Limita la altura máxima de la tarjeta */
+    overflow: hidden; /* Oculta cualquier contenido que se desborde fuera de la tarjeta */
+}
+
+.team-card:hover, .treatment-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Ajuste de imagen dentro de la tarjeta */
+.team-card .card-image img, .treatment-card .card-image img {
+    height: 250px; /* Altura fija para la imagen */
+    width: 100%; /* Asegura que la imagen cubra el ancho completo de la tarjeta */
+    object-fit: cover; /* Mantiene la relación de aspecto de la imagen */
+}
+
+
+
+
+/* Recortar el texto si es demasiado largo y mostrar elipsis */
+.card-content p {
+    display: -webkit-box;
+    -webkit-line-clamp: 5; /* Limita el texto a 5 líneas */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Añade elipsis si el texto es muy largo */
+}

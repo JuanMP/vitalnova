@@ -22,7 +22,10 @@ class AppointmentController extends Controller
             } else if ($user->rol === 'receptionist') {
                 $appointments = Appointment::with('user', 'treatment', 'doctor')->get();
             } else {
-                $appointments = Appointment::where('user_id', $user->id)->with('doctor', 'treatment')->get();
+                $appointments = Appointment::where('user_id', $user->id)
+                ->whereDate('date', '>=', Carbon::today())
+                ->with('doctor', 'treatment')
+                ->get();
             }
 
             return view('appointments.index', compact('appointments'));
@@ -175,7 +178,7 @@ class AppointmentController extends Controller
 
         //Recuperar citas históricas del usuario autenticado
         $appointments = Appointment::where('user_id', $user->id)
-                                    ->where('status_id', 3) //Supongamos que el estado 3 es "finalizado"
+                                    ->whereIn('status_id', [3, 5]) //Supongamos que el estado 3 es "finalizado"
                                     ->with('doctor', 'treatment')
                                     ->orderBy('date', 'desc')
                                     ->get();

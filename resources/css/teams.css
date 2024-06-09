@@ -1,0 +1,12 @@
+.team-card .card-image img {
+    height: 450px; /* Altura fija para la imagen */
+    width: 100%; /* Asegura que la imagen cubra el ancho completo de la tarjeta */
+    object-fit: cover; /* Mantiene la relación de aspecto de la imagen */
+}
+
+
+
+/* Añade margen inferior entre las tarjetas */
+.team-row .col {
+    margin-bottom: 10px;
+}

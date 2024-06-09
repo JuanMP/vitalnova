@@ -24,6 +24,15 @@
                             <a href="{{ route('generate.document', $appointment->id) }}" class="secondary-content">
                                 <i class="material-icons">file_download</i>
                             </a>
+                            <br>
+                        </div>
+                        <div class="card-action">
+                            @if($appointment->status_id == 3)
+                                <form action="{{ route('reviews.create', $appointment->id) }}" method="GET" style="display:inline;">
+                                    @csrf
+                                    <button type="submit" class="btn green waves-effect waves-light">Valorar</button>
+                                </form>
+                            @endif
                         </div>
                     </div>
                 </div>

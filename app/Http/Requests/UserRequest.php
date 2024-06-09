@@ -22,11 +22,11 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|min:2|max:20',
+            'name' => 'required|string|min:2|max:50',
             'email' => 'required|email|unique:users,email',
             'birthday' => 'required|date|before_or_equal:today|after:-100 years|before:-14 years',
             'dni' => ['required', 'string', 'size:9', 'unique:users,dni', 'regex:/^[0-9]{8}[A-Za-z]$/'],
-            'telephone' => ['required', 'string', 'regex:/^[6|7|9][0-9]{8}$/'],
+            'telephone' => 'required|string|max:9',
             'password' => [
                 'required',
                 'string',
@@ -42,7 +42,7 @@ class UserRequest extends FormRequest
         return [
             'name.required' => 'Debes introducir un nombre.',
             'name.min' => 'El nombre debe tener al menos 2 caracteres.',
-            'name.max' => 'El nombre no puede tener más de 20 caracteres.',
+            'name.max' => 'El nombre no puede tener más de 50 caracteres.',
             'email.required' => 'El correo electrónico es obligatorio.',
             'email.email' => 'Debes introducir un correo electrónico válido.',
             'email.unique' => 'Este correo electrónico ya está registrado.',

@@ -34,7 +34,7 @@
     </div>
   </div>
 
-  @if(count($appointments) > 0)
+  {{-- @if(count($appointments) > 0)
     <div class="row">
       <div class="col s12">
         <h5 class="center-align">Citas</h5>
@@ -51,7 +51,7 @@
         </ul>
       </div>
     </div>
-  @endif
+  @endif --}}
 </div>
 
 @endsection

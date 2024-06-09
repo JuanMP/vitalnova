@@ -17,12 +17,12 @@
         </div>
     @endif
 
-    <div class="row">
+    <div class="row" id="specialties-grid">
         @foreach ($specialties as $specialty)
-            <div class="col s12 m6 l3">
-                <div class="card">
+            <div class="col s12 m6 l4">
+                <div class="card specialty-card">
                     @if ($specialty->image)
-                        <div class="card-image">
+                        <div class="card-image specialty-image">
                             <img src="{{ asset($specialty->image) }}" alt="{{ $specialty->name }}">
                         </div>
                     @endif
@@ -45,4 +45,8 @@
         @endforeach
     </div>
 </div>
+
+@vite('resources/css/specialties.css')
+
+
 @endsection

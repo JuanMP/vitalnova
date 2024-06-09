@@ -48,10 +48,26 @@
   }
 
   .slider .indicators {
-    bottom: 60px;
+    bottom: 50px;
     z-index: 100;
-    /* text-align: left; */
   }
+  .caption-align-right {
+    text-align: right;
+    /* Si deseas ajustar la posición, puedes usar las siguientes propiedades */
+    position: absolute;
+    right: 10px; /* Puedes ajustar este valor según lo necesites */
+    bottom: 10px; /* Puedes ajustar este valor según lo necesites */
+}
+
+/* Mantén las demás propiedades de la clase caption si es necesario */
+.caption {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
 
 
 
@@ -68,3 +84,6 @@
     padding: 5px;
     border-radius: 3px;
 }
+
+
+

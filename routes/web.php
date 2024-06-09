@@ -13,7 +13,7 @@ use App\Http\Middleware\IsDoctor;
 use App\Http\Middleware\IsReceptionist;
 use App\Http\Controllers\SpecialtyController;
 use App\Http\Controllers\HomeController;
-
+use App\Http\Controllers\ReviewController;
 
 //Página de inicio
 Route::get('/', function () {
@@ -99,3 +99,8 @@ Route::middleware(['notAdmin'])->group(function () {
         return view('contact.index');
     })->name('contact');
 });
+
+
+
+Route::get('reviews/create/{appointment}', [ReviewController::class, 'create'])->name('reviews.create');
+Route::post('reviews', [ReviewController::class, 'store'])->name('reviews.store');

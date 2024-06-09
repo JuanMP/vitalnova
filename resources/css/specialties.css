@@ -1,0 +1,41 @@
+
+.col{
+    margin-bottom: 20px;
+
+}
+
+#specialties-grid {
+    display: flex;
+    flex-wrap: wrap;
+
+}
+
+.specialty-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    border-radius: 8px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+
+.specialty-card .card-image img {
+    height: 200px;
+    object-fit: cover;
+
+}
+
+.specialty-card .card-content {
+    flex-grow: 1; /* Permitir que el contenido ocupe el espacio disponible */
+}
+
+.specialty-card .card-action {
+    text-align: center; /* Centrar los botones */
+}
+
+.specialty-card .btn {
+    margin: 5px; /* Espacio entre botones */
+}

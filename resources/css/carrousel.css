@@ -1,0 +1,15 @@
+.carousel .carousel-item {
+    width: 280px;
+    height: auto;
+}
+
+.card-content {
+    height: 250px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card{
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
