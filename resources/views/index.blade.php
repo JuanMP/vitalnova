@@ -22,7 +22,7 @@
                 </div>
             </li>
             <li>
-                <img src="img/slider/implante.jpg">
+                <img src="img/slider/familiar.jpg">
                 <div class="caption caption-align-right">
                     <h4>Déjanos ser parte de tu bienestar</h4>
                     <h5 class="light grey-text text-lighten-3">La felicidad puede ser para todos</h5>
@@ -49,7 +49,6 @@
 
 
 
-<!-- Sección de tratamientos de la base de datos -->
 <section class="section grey lighten-4">
     <div class="container">
         <h2 class="center-align">Nuestros Servicios</h2>

@@ -11,15 +11,7 @@
         <h5>Ubicación</h5>
         <div class="card">
           <div class="card-content">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6160.881208341625!2d-0.35400821730391846!3d39.459373840163714!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd6048ee889b5ce3%3A0x5bac0dd44afbb1fb!2sAv.%20de%2Francia%2022%2C%20Camins%20al%20Grau%2C%2046023%20Valencia!5e0!3m2!1ses!2ses!4v1716240839515!5m2!1ses!2ses"
-              width="100%"
-              height="600"
-              style="border:0;"
-              allowfullscreen=""
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
-            ></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3079.8169497522513!2d-0.3405447882154751!3d39.473463871488306!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd604888312537bf%3A0x69f4b68668666586!2sC.%20de%20Jos%C3%A9%20Mar%C3%ADa%20Haro%2C%2063%2C%20Algir%C3%B3s%2C%2046022%20Valencia!5e0!3m2!1ses!2ses!4v1717996525814!5m2!1ses!2ses" width="800" height="600" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
           </div>
         </div>
       </div>
