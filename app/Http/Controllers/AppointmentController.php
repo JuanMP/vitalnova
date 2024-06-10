@@ -16,13 +16,14 @@ class AppointmentController extends Controller
     {
         $user = Auth::user();
 
+        //Muestra según los diferentes roles
         if ($user) {
             if ($user->isDoctor()) {
                 $appointments = Appointment::where('doctor_id', $user->id)->whereDate('date', Carbon::today())->with('user', 'treatment')->get();
             } else if ($user->rol === 'receptionist') {
                 $appointments = Appointment::with('user', 'treatment', 'doctor')->get();
             } else {
-                $appointments = Appointment::where('user_id', $user->id)
+                $appointments = Appointment::where('user_id', $user->id) //muestra las citas de hoy y futuras
                 ->whereDate('date', '>=', Carbon::today())
                 ->with('doctor', 'treatment')
                 ->get();

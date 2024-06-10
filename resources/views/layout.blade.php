@@ -21,12 +21,6 @@
     <!--J Query -->
     <script src="http://code.jquery.com/jquery-latest.js"></script>
 
-    <!-- Archivos CSS de FullCalendar -->
-    {{-- <link href="/ruta/a/fullcalendar/core/main.css" rel="stylesheet" />
-    <link href="/ruta/a/fullcalendar/daygrid/main.css" rel="stylesheet" />
-    <script src="/ruta/a/fullcalendar/core/main.js"></script>
-    <script src="/ruta/a/fullcalendar/daygrid/main.js"></script> --}}
-
     <!-- PAGINA OFICIAL DE FULL CALENDAR -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
@@ -41,7 +35,8 @@
 
     <!-- Vite -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    {{-- @vite(['resources/js/appointments.create.js', 'resources/css/appointments.create.css']) --}}
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 
     <!-- Título de la página -->

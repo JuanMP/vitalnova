@@ -32,9 +32,12 @@
             <p>722718349</p>
             <h6>Redes Sociales</h6>
             <p>
-              <a href="https://facebook.com"></i></a>
-              <a href="https://instagram.com"></i></a>
-              <a href="https://tiktok.com"></i></a>
+            <a href="https://www.facebook.com" target="_blank">
+                        <i class="fab fa-facebook fa-2x"></i> Facebook</a></li>
+            <a href="https://www.x.com" target="_blank">
+                        <i class="fab fa-twitter fa-2x"></i> Twitter</a></li>
+            <a href="https://www.instagram.com" target="_blank">
+                        <i class="fab fa-instagram fa-2x"></i> Instagram</a></li>
             </p>
           </div>
         </div>
@@ -51,27 +54,27 @@
               <tbody>
                 <tr>
                   <td>Lunes</td>
-                  <td>9:00 - 13:00</td>
+                  <td>9:00 - 18:00</td>
                 </tr>
                 <tr>
                   <td>Martes</td>
-                  <td>9:00 - 13:00</td>
+                  <td>9:00 - 18:00</td>
                 </tr>
                 <tr>
                   <td>Miércoles</td>
-                  <td>9:00 - 13:00</td>
+                  <td>9:00 - 18:00</td>
                 </tr>
                 <tr>
                   <td>Jueves</td>
-                  <td>9:00 - 13:00</td>
+                  <td>9:00 - 18:00</td>
                 </tr>
                 <tr>
                   <td>Viernes</td>
-                  <td>9:00 - 13:00</td>
+                  <td>9:00 - 18:00</td>
                 </tr>
                 <tr>
                   <td>Sábado</td>
-                  <td>9:00 - 13:00</td>
+                  <td>9:00 - 18:00</td>
                 </tr>
                 <tr>
                   <td>Domingo</td>

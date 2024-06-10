@@ -36,7 +36,7 @@
                 </div>
             </li>
             <li>
-                <img src="img/slider/contenta.jpg">
+                <img src="img/slider/cepillado.jpg">
                 <div class="caption caption-align-right">
                     <h3>Sonrisas que transforman vidas</h3>
                     <h4 class="light grey-text text-lighten-3">Primera visita gratuita</h4>

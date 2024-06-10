@@ -4,9 +4,12 @@
             <div class="col l4 s12">
                 <h5 class="white-text">Redes Sociales</h5>
                 <ul>
-                    <li><a class="grey-text text-lighten-3" href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook fa-2x"></i></a></li>
-                    <li><a class="grey-text text-lighten-3" href="https://www.x.com" target="_blank"><i class="fab fa-twitter fa-2x"></i></a></li>
-                    <li><a class="grey-text text-lighten-3" href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram fa-2x"></i></a></li>
+                    <li><a class="grey-text text-lighten-3" href="https://www.facebook.com" target="_blank">
+                        <i class="fab fa-facebook fa-2x"></i> Facebook</a></li>
+                    <li><a class="grey-text text-lighten-3" href="https://www.x.com" target="_blank">
+                        <i class="fab fa-twitter fa-2x"></i> Twitter</a></li>
+                    <li><a class="grey-text text-lighten-3" href="https://www.instagram.com" target="_blank">
+                        <i class="fab fa-instagram fa-2x"></i> Instagram</a></li>
                 </ul>
             </div>
             <div class="col l4 s12">
@@ -21,16 +24,16 @@
             <div class="col l4 s12">
                 <h5 class="white-text">Contáctanos</h5>
                 <p class="grey-text text-lighten-4">Recuerda que la primera consulta es gratuita</p>
-                <p class="grey-text text-lighten-4">Ubicación: Av Francia, 22, Valencia</p>
+                <p class="grey-text text-lighten-4">Ubicación: C/ de José María Haro, 63, Algirós, 46022 València</p>
+                <p class="grey-text text-lighten-4">961432236</p></p>
             </div>
         </div>
     </div>
     <div class="footer-copyright">
         <div class="container">
             VitalNova &#x00A9; Todos los derechos reservados 2024
-            <!-- <a class="grey-text text-lighten-4 right" href="#!">More Links</a> -->
         </div>
     </div>
 </footer>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+

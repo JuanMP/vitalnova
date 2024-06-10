@@ -38,11 +38,11 @@
                 <input type="email" name="email" id="email" value="{{ Auth::user()->email }}" readonly>
             </div>
             <div>
-                <label for="telephone">Telephone:</label>
+                <label for="telephone">Teléfono:</label>
                 <input type="text" name="telephone" id="telephone" value="{{ Auth::user()->telephone }}" readonly>
             </div>
             <div>
-                <label for="observations">observations:</label>
+                <label for="observations">Observaciones:</label>
                 <textarea name="observations" id="observations"></textarea>
             </div>
             <button type="submit" id="bookAppointmentBtn" disabled>Confirmar Cita</button>

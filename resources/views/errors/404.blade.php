@@ -6,7 +6,10 @@
 
 <div class="text align-center">
     <h1>Error 404</h1>
-    <h2>No tienes permiso para ver esta página</h2>
+    <h2>Página No Encontrada</h2>
+    <br>
+    <br>
+    <br>
     <br>
     <a href="/" class="btn btn-primary">Vuelve al índice</a>
     </div>

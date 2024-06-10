@@ -8,6 +8,9 @@
     <h1>Error 403</h1>
     <h2>No tienes permiso para ver esta página</h2>
     <br>
+    <br>
+    <br>
+    <br>
     <a href="/" class="btn btn-primary">Vuelve al índice</a>
     </div>
 
